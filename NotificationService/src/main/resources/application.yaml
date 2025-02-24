@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: NotificationService
+
+  profiles:
+    active: local

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import io.grpc.Status;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -48,7 +49,7 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                         .build();
                 responseObserver.onNext(response);
                 responseObserver.onCompleted();
-            }catch (SQLException e) {
+            }catch (DataIntegrityViolationException dataIntegrityViolationException) {
                 responseObserver.onError(new StatusException(Status.INTERNAL.withDescription("Failed to save user")));
             }
         }else {
@@ -102,7 +103,7 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        }catch (SQLException sqlException) {
+        }catch (DataIntegrityViolationException dataIntegrityViolationException) {
             responseObserver.onError(new StatusException(Status.INTERNAL.withDescription("Failed to update user")));
         }catch (NoSuchElementException e) {
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("User not found")));
@@ -125,7 +126,7 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (SQLException sqlException){
+        } catch (DataIntegrityViolationException dataIntegrityViolationException){
             responseObserver.onError(new StatusException(Status.INTERNAL.withDescription("Failed to delete user")));
         }catch (NoSuchElementException e){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("User not found")));

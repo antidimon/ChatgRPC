@@ -7,11 +7,10 @@ import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import antidimon.web.userservice.repositories.ChatUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -37,18 +36,18 @@ public class ChatUserService {
     }
 
     @Transactional
-    protected void saveUser(ChatUser chatUser) throws SQLException {
+    protected void saveUser(ChatUser chatUser) throws DataIntegrityViolationException {
         chatUserRepository.save(chatUser);
     }
 
     @Transactional
-    public void saveUser(ChatUserInputDTO chatUserInputDTO) throws SQLException {
+    public void saveUser(ChatUserInputDTO chatUserInputDTO) throws DataIntegrityViolationException {
         ChatUser user = chatUserMapper.toEntity(chatUserInputDTO);
         this.saveUser(user);
     }
 
     @Transactional
-    public void editChatUser(ChatUserInputDTO editUserDTO) throws NoSuchElementException, SQLException {
+    public void editChatUser(ChatUserInputDTO editUserDTO) throws NoSuchElementException, DataIntegrityViolationException {
         ChatUser chatUser = this.getUserEntity(editUserDTO.getUsername());
 
         chatUser.setUsername(editUserDTO.getUsername());
@@ -62,7 +61,7 @@ public class ChatUserService {
     }
 
     @Transactional
-    public void deleteUser(String username) throws NoSuchElementException, SQLException {
+    public void deleteUser(String username) throws NoSuchElementException {
         ChatUser chatUser = this.getUserEntity(username);
         chatUserRepository.delete(chatUser);
     }

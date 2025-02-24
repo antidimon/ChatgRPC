@@ -12,19 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11320949-62ca-49d0-8985-ea9cb99ce4e8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d/storage_v2/_src_/database/usersDB.hjQ79w/schema/public.abK9xQ.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d/storage_v2/_src_/database/usersDB.hjQ79w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d/storage_v2/_src_/database/usersDB.hjQ79w/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MessageService/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MessageService/src/main/resources/db.migration/V001__Tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/resources/db.migration/V001__Tables.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/ChatUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/ChatUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/UserGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/UserGRPCService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/.env" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +53,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Maven.MessageService [compile].executor": "Run",
     "Maven.UserService [clean].executor": "Run",
     "Maven.UserService [compile].executor": "Run",
@@ -168,7 +157,7 @@
       <workItem from="1740407127936" duration="907000" />
       <workItem from="1740408054879" duration="141000" />
       <workItem from="1740408206301" duration="4678000" />
-      <workItem from="1740423441463" duration="2878000" />
+      <workItem from="1740423441463" duration="3081000" />
     </task>
     <servers />
   </component>

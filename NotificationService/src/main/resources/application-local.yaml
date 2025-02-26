@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${DB_LOCAL_URL}
+
+server:
+  port: ${LOCAL_SERVER_PORT}
+  servlet:
+    context-path: /
+
+grpc:
+  server:
+    port: ${LOCAL_GRPC_PORT}

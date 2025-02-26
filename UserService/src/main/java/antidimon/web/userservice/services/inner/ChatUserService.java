@@ -1,4 +1,4 @@
-package antidimon.web.userservice.services;
+package antidimon.web.userservice.services.inner;
 
 
 import antidimon.web.userservice.mapper.ChatUserMapper;
@@ -6,6 +6,7 @@ import antidimon.web.userservice.models.ChatUser;
 import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import antidimon.web.userservice.repositories.ChatUserRepository;
+import antidimon.web.userservice.services.grpc.MessageServiceClient;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ChatUserService {
 
     private ChatUserRepository chatUserRepository;
     private ChatUserMapper chatUserMapper;
+    private MessageServiceClient messageServiceClient;
 
     private ChatUser getUserEntity(String username) throws NoSuchElementException {
         Optional<ChatUser> chatUser = chatUserRepository.findByUsername(username);
@@ -36,14 +38,15 @@ public class ChatUserService {
     }
 
     @Transactional
-    protected void saveUser(ChatUser chatUser) throws DataIntegrityViolationException {
+    protected long saveUser(ChatUser chatUser) throws DataIntegrityViolationException {
         chatUserRepository.save(chatUser);
+        return chatUser.getId();
     }
 
     @Transactional
-    public void saveUser(ChatUserInputDTO chatUserInputDTO) throws DataIntegrityViolationException {
+    public long saveUser(ChatUserInputDTO chatUserInputDTO) throws DataIntegrityViolationException {
         ChatUser user = chatUserMapper.toEntity(chatUserInputDTO);
-        this.saveUser(user);
+        return this.saveUser(user);
     }
 
     @Transactional
@@ -61,8 +64,17 @@ public class ChatUserService {
     }
 
     @Transactional
-    public void deleteUser(String username) throws NoSuchElementException {
+    public long deleteUser(String username) throws NoSuchElementException {
         ChatUser chatUser = this.getUserEntity(username);
         chatUserRepository.delete(chatUser);
+
+        messageServiceClient.deleteUserFromChats(chatUser.getId());
+
+        return chatUser.getId();
+    }
+
+    public long getUserId(String username) throws NoSuchElementException{
+        ChatUser chatUser = this.getUserEntity(username);
+        return chatUser.getId();
     }
 }

@@ -1,4 +1,4 @@
-package antidimon.web.notificationservice.services;
+package antidimon.web.notificationservice.services.inner;
 
 import antidimon.web.notificationservice.models.Subscription;
 import antidimon.web.notificationservice.models.SubscriptionType;

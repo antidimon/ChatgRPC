@@ -14,14 +14,29 @@
     <list default="true" id="11320949-62ca-49d0-8985-ea9cb99ce4e8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/proto/cfg.proto" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/proto/cfg.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/resources/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/resources/application-local.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/models/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/models/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/repositories/ChatMessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/repositories/ChatMessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/ChatGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/grpc/ChatGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/ChatMessageGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/grpc/ChatMessageGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/ChatMessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/inner/ChatMessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/inner/ChatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/proto/cfg.proto" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/proto/messageService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/resources/db/migration/V001__Tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/resources/db/migration/V001__Tables.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/NotificationGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/grpc/NotificationGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/inner/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/SubscriptionGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/grpc/SubscriptionGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/antidimon/web/notificationservice/services/inner/SubscriptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/proto/cfg.proto" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/proto/notificationService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/ChatUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/inner/ChatUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/JwtService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/UserGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/ValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/inner/ValidationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/proto/cfg.proto" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/proto/userService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/application-local.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +103,7 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Distrib/webs/Java/ChatgRPC/UserService",
+    "last_opened_file_path": "D:/Distrib/webs/Java/ChatgRPC/UserService/src/main/proto",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -110,10 +125,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Distrib\webs\Java\ChatgRPC\UserService\src\main\proto" />
+      <recent name="D:\Distrib\webs\Java\ChatgRPC\NotificationService\src\main\proto" />
+      <recent name="D:\Distrib\webs\Java\ChatgRPC\MessageService\src\main\proto" />
       <recent name="D:\Distrib\webs\Java\ChatgRPC\MessageService\src\main\resources" />
       <recent name="D:\Distrib\webs\Java\ChatgRPC\MessageService\src\main\resources\db.migration" />
-      <recent name="D:\Distrib\webs\Java\ChatgRPC\NotificationService\src\main\resources\db.migration" />
-      <recent name="D:\Distrib\webs\Java\ChatgRPC\NotificationService\src\main\resources" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -132,7 +148,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.NotificationServiceApplication">
+  <component name="RunManager" selected="Spring Boot.MessageServiceApplication">
     <configuration name="MessageServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="MessageService" />
@@ -201,7 +217,7 @@
       <workItem from="1740482767402" duration="2797000" />
       <workItem from="1740503519778" duration="7496000" />
       <workItem from="1740513460925" duration="1433000" />
-      <workItem from="1740582394820" duration="5863000" />
+      <workItem from="1740582394820" duration="11983000" />
     </task>
     <servers />
   </component>

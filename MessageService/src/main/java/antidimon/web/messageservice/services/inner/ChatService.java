@@ -1,4 +1,4 @@
-package antidimon.web.messageservice.services;
+package antidimon.web.messageservice.services.inner;
 
 import antidimon.web.messageservice.mappers.ChatMapper;
 import antidimon.web.messageservice.models.Chat;
@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -84,18 +83,14 @@ public class ChatService {
         chatRepository.save(chat);
     }
 
-    @Transactional
-    public void kickUserFromChat(long chatId, long userId) throws NoSuchElementException{
-        ChatParticipantPK pk = new ChatParticipantPK(chatId, userId);
-        ChatParticipant chatParticipant = chatParticipantRepository.findById(pk)
-                .orElseThrow(() -> new NoSuchElementException("Участник чата не найден"));
-
-        chatParticipantRepository.delete(chatParticipant);
-    }
-
-    public List<ChatOutputDTO> getUserChats(long userId) {
+    public List<Chat> getUserChats(long userId){
         List<Chat> chats = chatRepository.findUserPrivateAndOwnerChats(userId);
         chats.addAll(chatRepository.findUserMemberChats(userId));
+        return chats;
+    }
+
+    public List<ChatOutputDTO> getUserChatsDTO(long userId) {
+        List<Chat> chats = this.getUserChats(userId);
         return chats.stream().map(chatMapper::toOutputDTO).toList();
     }
 
@@ -109,7 +104,52 @@ public class ChatService {
     @Transactional
     public void deleteGroupChat(long chatId) throws NoSuchElementException, IllegalArgumentException{
         Chat chat = this.getChat(chatId);
-        if (chat.getType().equals(ChatType.GROUP)) chatRepository.delete(chat);
+        if (chat.getType().equals(ChatType.GROUP)) {
+            chatRepository.delete(chat);
+        }
         throw new IllegalArgumentException();
     }
+
+
+
+    @Transactional
+    public void deleteUserChats(long userId) {
+        List<Chat> chats = this.getUserChats(userId);
+        for (Chat chat : chats) {
+            if (chat.getType().equals(ChatType.PRIVATE)) {
+                chatRepository.delete(chat);
+            }else{
+                this.kickUserFromGroupChat(chat.getId(), userId);
+            }
+        }
+    }
+
+
+
+    @Transactional
+    public void kickUserFromGroupChat(long chatId, long userId) throws NoSuchElementException{
+        Chat chat = this.getChat(chatId);
+        if (chat.getMembers().size() == 1) {
+            this.deleteGroupChat(chatId);
+        }else {
+            this.kickParticipantFromChat(chat, userId);
+            if (chat.getOwnerId() == userId) {
+                chat.setOwnerId(chat.getMembers().stream()
+                        .filter(member -> member.getId().getUserId() != userId)
+                        .findFirst().get().getId().getUserId());
+                chatRepository.save(chat);
+            }
+        }
+    }
+
+    @Transactional
+    public void kickParticipantFromChat(Chat chat, long userId) throws NoSuchElementException{
+        ChatParticipantPK pk = new ChatParticipantPK(chat.getId(), userId);
+        ChatParticipant chatParticipant = chatParticipantRepository.findById(pk)
+                .orElseThrow(() -> new NoSuchElementException("Участник чата не найден"));
+
+        chatParticipantRepository.delete(chatParticipant);
+    }
+
+
 }

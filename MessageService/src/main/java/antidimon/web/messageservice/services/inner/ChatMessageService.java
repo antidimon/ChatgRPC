@@ -1,4 +1,4 @@
-package antidimon.web.messageservice.services;
+package antidimon.web.messageservice.services.inner;
 
 
 import antidimon.web.messageservice.mappers.ChatMapper;
@@ -58,5 +58,10 @@ public class ChatMessageService {
     @Transactional
     public void deleteMessage(long messageId) throws NoSuchElementException{
         chatMessageRepository.deleteById(messageId);
+    }
+
+    @Transactional
+    public void deleteMessages(Chat chat) {
+        chatMessageRepository.deleteChatMessagesByChat(chat);
     }
 }

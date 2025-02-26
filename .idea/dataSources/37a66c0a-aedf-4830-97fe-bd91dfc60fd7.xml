@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>15447</IntrospectionStateNumber>
+      <IntrospectionStateNumber>15467</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
       <StartupTime>1740041012</StartupTime>
       <TimeZones>true ACDT
@@ -794,7 +794,7 @@ false Zulu
       <OwnerName>antidimon</OwnerName>
     </database>
     <database id="3" parent="1" name="msgDB">
-      <ObjectId>47461</ObjectId>
+      <ObjectId>47610</ObjectId>
       <OwnerName>antidimon</OwnerName>
     </database>
     <database id="4" parent="1" name="notificationDB">
@@ -813,7 +813,7 @@ false Zulu
 14697||10|C|G
 14697||-9223372036854775808|U|G
 14697||10|U|G</Grants>
-      <IntrospectionStateNumber>15447</IntrospectionStateNumber>
+      <IntrospectionStateNumber>15467</IntrospectionStateNumber>
       <ObjectId>5</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4274,8 +4274,8 @@ false Zulu
     <schema id="273" parent="5" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>15447</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2025-02-26.16:42:46</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>15467</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-02-26.19:17:50</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>

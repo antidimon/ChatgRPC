@@ -1,4 +1,4 @@
-package antidimon.web.notificationservice.services;
+package antidimon.web.notificationservice.services.grpc;
 
 
 import antidimon.web.notificationservice.models.dto.NotificationOutputDTO;
@@ -6,6 +6,7 @@ import antidimon.web.notificationservice.proto.GetNotificationsResponse;
 import antidimon.web.notificationservice.proto.SendNotificationRequest;
 import antidimon.web.notificationservice.proto.SendNotificationResponse;
 import antidimon.web.notificationservice.proto.Notif;
+import antidimon.web.notificationservice.services.inner.NotificationService;
 import io.grpc.Status;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;

@@ -76,6 +76,7 @@ service ChatService {
   rpc RemoveUserFromGroupChat(RemoveUserFromGroupChatRequest) returns (RemoveUserFromGroupChatResponse);
 
   rpc GetUserChats(GetUserChatsRequest) returns (GetUserChatsResponse);
+  rpc DeleteUserChats(DeleteUserChatsRequest) returns (DeleteUserChatsResponse);
 }
 
 message CreateGroupChatRequest {
@@ -192,3 +193,12 @@ message ChatInfo {
   int64 user2_id = 6;
 }
 
+
+message DeleteUserChatsRequest {
+  int64 user_id = 1;
+}
+
+message DeleteUserChatsResponse {
+  bool success = 1;
+  string message = 2;
+}

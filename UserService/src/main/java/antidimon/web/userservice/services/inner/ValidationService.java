@@ -1,6 +1,5 @@
-package antidimon.web.userservice.services;
+package antidimon.web.userservice.services.inner;
 
-import antidimon.web.userservice.models.ChatUser;
 import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.repositories.ChatUserRepository;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package antidimon.web.notificationservice.services;
+package antidimon.web.notificationservice.services.grpc;
 
 
 import antidimon.web.notificationservice.models.SubscriptionType;
@@ -7,13 +7,13 @@ import antidimon.web.notificationservice.proto.SubscribeToNotificationsRequest;
 import antidimon.web.notificationservice.proto.SubscribeToNotificationsResponse;
 import antidimon.web.notificationservice.proto.UnsubscribeFromNotificationsRequest;
 import antidimon.web.notificationservice.proto.UnsubscribeFromNotificationsResponse;
+import antidimon.web.notificationservice.services.inner.SubscriptionService;
 import io.grpc.Status;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 
-import java.util.List;
 import java.util.Map;
 
 @GrpcService

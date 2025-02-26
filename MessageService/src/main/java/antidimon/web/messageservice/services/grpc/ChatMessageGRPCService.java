@@ -1,9 +1,11 @@
-package antidimon.web.messageservice.services;
+package antidimon.web.messageservice.services.grpc;
 
 
 import antidimon.web.messageservice.models.dto.message.ChatMessageDTO;
 import antidimon.web.messageservice.models.dto.message.ChatMessageOutputDTO;
 import antidimon.web.messageservice.proto.*;
+import antidimon.web.messageservice.services.inner.ChatMessageService;
+import antidimon.web.messageservice.services.inner.ChatService;
 import io.grpc.Status;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;

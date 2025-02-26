@@ -1,9 +1,10 @@
-package antidimon.web.userservice.services;
+package antidimon.web.userservice.services.grpc;
 
-import antidimon.web.userservice.models.ChatUser;
 import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import antidimon.web.userservice.proto.*;
+import antidimon.web.userservice.services.inner.ChatUserService;
+import antidimon.web.userservice.services.inner.ValidationService;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,6 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import io.grpc.Status;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -30,7 +30,6 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
     public void registerUser(RegisterUserRequest request,
                              StreamObserver<RegisterUserResponse> responseObserver) {
 
-        log.info("Registering user");
         ChatUserInputDTO inputDTO = ChatUserInputDTO.builder()
                 .username(request.getUsername())
                 .name(request.getName())
@@ -42,7 +41,10 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
         List<String> errors = validationService.checkNewUserForErrors(inputDTO);
         if (errors.isEmpty()) {
             try {
-                chatUserService.saveUser(inputDTO);
+                long id = chatUserService.saveUser(inputDTO);
+
+                log.info("Successfully registered new user with id {}", id);
+
                 RegisterUserResponse response = RegisterUserResponse.newBuilder()
                         .setSuccess(true)
                         .setMessage("User registered successfully")
@@ -72,8 +74,10 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                     .setPhoneNumber(chatUser.getPhoneNumber())
                     .setCreatedAt(chatUser.getCreatedAt().toString())
                     .build();
+
             responseObserver.onNext(response);
             responseObserver.onCompleted();
+
         }catch (NoSuchElementException e) {
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("User not found")));
         }
@@ -117,7 +121,10 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                            StreamObserver<DeleteUserResponse> responseObserver) {
 
         try{
-            chatUserService.deleteUser(request.getUsername());
+            long id = chatUserService.deleteUser(request.getUsername());
+
+            log.info("Successfully deleted user with id {}", id);
+
             DeleteUserResponse response = DeleteUserResponse.newBuilder()
                     .setSuccess(true)
                     .setMessage("User deleted successfully")
@@ -126,10 +133,10 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (DataIntegrityViolationException dataIntegrityViolationException){
-            responseObserver.onError(new StatusException(Status.INTERNAL.withDescription("Failed to delete user")));
         }catch (NoSuchElementException e){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("User not found")));
+        }catch (Exception e){
+            responseObserver.onError(new StatusException(Status.INTERNAL.withDescription("Failed to delete user")));
         }
     }
 }

@@ -43,7 +43,7 @@ public class Chat {
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ChatMessage> messages;
 
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)

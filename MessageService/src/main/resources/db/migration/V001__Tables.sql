@@ -22,5 +22,5 @@ CREATE TABLE messages (
     sender_id bigint NOT NULL,
     text TEXT NOT NULL,
     created_at TIMESTAMP,
-    FOREIGN KEY (chat_id) REFERENCES chats(id)
+    FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE
 );

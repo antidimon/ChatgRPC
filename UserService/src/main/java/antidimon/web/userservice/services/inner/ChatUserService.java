@@ -37,6 +37,14 @@ public class ChatUserService {
         throw new NoSuchElementException("User not found");
     }
 
+    public ChatUserOutputDTO getChatUserDTO(long userId) throws NoSuchElementException {
+        Optional<ChatUser> user = chatUserRepository.findById(userId);
+        if(user.isPresent()){
+            return chatUserMapper.toDTO(user.get());
+        }
+        throw new NoSuchElementException("User not found");
+    }
+
     @Transactional
     protected long saveUser(ChatUser chatUser) throws DataIntegrityViolationException {
         chatUserRepository.save(chatUser);

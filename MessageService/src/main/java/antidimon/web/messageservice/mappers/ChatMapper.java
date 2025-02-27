@@ -10,6 +10,8 @@ import antidimon.web.messageservice.models.dto.message.ChatMessageDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class ChatMapper {
 
@@ -28,6 +30,7 @@ public class ChatMapper {
                 .description(chatInputDTO.getDescription())
                 .ownerId(chatInputDTO.getOwnerId())
                 .type(ChatType.GROUP)
+                .members(new ArrayList<>())
                 .build();
     }
 

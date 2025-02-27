@@ -38,7 +38,10 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (Exception e){
+        }catch (NoSuchElementException ex){
+            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(ex.getMessage())));
+        }catch (Exception e){
+            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -126,6 +129,8 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
+        }catch (NoSuchElementException ex){
+            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(ex.getMessage())));
         } catch (Exception e) {
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
@@ -186,7 +191,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
             responseObserver.onCompleted();
 
         }catch (NoSuchElementException noSuchElementException){
-            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chat")));
+            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(noSuchElementException.getMessage())));
         }catch (Exception e){
             e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
@@ -206,8 +211,9 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
             responseObserver.onCompleted();
 
         }catch (NoSuchElementException noSuchElementException){
-            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chat")));
+            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(noSuchElementException.getMessage())));
         }catch (Exception e){
+            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }

@@ -8,10 +8,13 @@ import antidimon.web.messageservice.models.ChatType;
 import antidimon.web.messageservice.models.dto.chat.*;
 import antidimon.web.messageservice.repositories.ChatParticipantRepository;
 import antidimon.web.messageservice.repositories.ChatRepository;
+import antidimon.web.messageservice.services.grpc.UserServiceClient;
+import io.grpc.StatusRuntimeException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -19,6 +22,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ChatService {
+    private UserServiceClient userServiceClient;
     private final ChatMapper chatMapper;
     private ChatRepository chatRepository;
     private ChatParticipantRepository chatParticipantRepository;
@@ -30,10 +34,12 @@ public class ChatService {
     }
 
     @Transactional
-    public long createGroupChat(GroupChatInputDTO chatInputDTO) {
+    public long createGroupChat(GroupChatInputDTO chatInputDTO) throws NoSuchElementException {
+        this.checkIfUserExist(List.of(chatInputDTO.getOwnerId()));
         Chat chat = chatMapper.toEntity(chatInputDTO);
-        System.out.println(chat.getType());
-        return chatRepository.save(chat).getId();
+        long chatId = chatRepository.save(chat).getId();
+        this.addUserToChat(chatId, chat.getOwnerId());
+        return chatId;
     }
 
     public GroupChatOutputDTO getGroupChat(long chatId) throws NoSuchElementException {
@@ -52,7 +58,8 @@ public class ChatService {
     }
 
     @Transactional
-    public long createPrivateChat(long user1Id, long user2Id) {
+    public long createPrivateChat(long user1Id, long user2Id) throws NoSuchElementException {
+        this.checkIfUserExist(List.of(user1Id, user2Id));
         Chat chat = Chat.builder()
                 .type(ChatType.PRIVATE)
                 .user1Id(user1Id)
@@ -73,6 +80,7 @@ public class ChatService {
 
     @Transactional
     public void addUserToChat(long chatId, long userId) throws NoSuchElementException{
+        this.checkIfUserExist(List.of(userId));
         Chat chat = this.getChat(chatId);
 
         ChatParticipant chatParticipant = new ChatParticipant(new ChatParticipantPK(chatId, userId), chat);
@@ -106,6 +114,7 @@ public class ChatService {
         Chat chat = this.getChat(chatId);
         if (chat.getType().equals(ChatType.GROUP)) {
             chatRepository.delete(chat);
+            return;
         }
         throw new IllegalArgumentException();
     }
@@ -129,27 +138,45 @@ public class ChatService {
     @Transactional
     public void kickUserFromGroupChat(long chatId, long userId) throws NoSuchElementException{
         Chat chat = this.getChat(chatId);
+        if (chat.getMembers().stream()
+                .noneMatch(member -> member.getId().getUserId() == userId)){
+            throw new NoSuchElementException("User not in chat");
+        }
         if (chat.getMembers().size() == 1) {
             this.deleteGroupChat(chatId);
         }else {
             this.kickParticipantFromChat(chat, userId);
             if (chat.getOwnerId() == userId) {
+                var newMembers = new ArrayList<>(chat.getMembers().stream()
+                        .filter(member -> member.getId().getUserId() != userId).toList());
+                chat.setMembers(newMembers);
+
                 chat.setOwnerId(chat.getMembers().stream()
                         .filter(member -> member.getId().getUserId() != userId)
                         .findFirst().get().getId().getUserId());
+
+                System.out.println(chat);
                 chatRepository.save(chat);
             }
         }
     }
 
     @Transactional
-    public void kickParticipantFromChat(Chat chat, long userId) throws NoSuchElementException{
+    public void kickParticipantFromChat(Chat chat, long userId){
         ChatParticipantPK pk = new ChatParticipantPK(chat.getId(), userId);
-        ChatParticipant chatParticipant = chatParticipantRepository.findById(pk)
-                .orElseThrow(() -> new NoSuchElementException("Участник чата не найден"));
-
+        ChatParticipant chatParticipant = chatParticipantRepository.findById(pk).get();
         chatParticipantRepository.delete(chatParticipant);
     }
 
+    private void checkIfUserExist(List<Long> list) throws NoSuchElementException {
+        for (Long userId : list) {
+            if (!userServiceClient.isUserExist(userId)){
+                throw new NoSuchElementException("User not exist");
+            }
+        }
+    }
+
+
 
 }
+

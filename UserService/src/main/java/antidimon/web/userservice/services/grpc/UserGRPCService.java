@@ -67,12 +67,14 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
         try {
             ChatUserOutputDTO chatUser = chatUserService.getChatUserDTO(request.getUsername());
             GetUserResponse response = GetUserResponse.newBuilder()
-                    .setUsername(chatUser.getUsername())
-                    .setName(chatUser.getName())
-                    .setAge(chatUser.getAge())
-                    .setEmail(chatUser.getEmail())
-                    .setPhoneNumber(chatUser.getPhoneNumber())
-                    .setCreatedAt(chatUser.getCreatedAt().toString())
+                    .setUser(User.newBuilder()
+                            .setUsername(chatUser.getUsername())
+                            .setName(chatUser.getName())
+                            .setAge(chatUser.getAge())
+                            .setEmail(chatUser.getEmail())
+                            .setPhoneNumber(chatUser.getPhoneNumber())
+                            .setCreatedAt(chatUser.getCreatedAt().toString())
+                    )
                     .build();
 
             responseObserver.onNext(response);
@@ -82,6 +84,29 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("User not found")));
         }
 
+    }
+
+    @Override
+    public void getUserById(GetUserByIdRequest request, StreamObserver<GetUserByIdResponse> responseObserver) {
+        try {
+            ChatUserOutputDTO chatUser = chatUserService.getChatUserDTO(request.getUserId());
+            GetUserByIdResponse response = GetUserByIdResponse.newBuilder()
+                    .setUser(User.newBuilder()
+                            .setUsername(chatUser.getUsername())
+                            .setName(chatUser.getName())
+                            .setAge(chatUser.getAge())
+                            .setEmail(chatUser.getEmail())
+                            .setPhoneNumber(chatUser.getPhoneNumber())
+                            .setCreatedAt(chatUser.getCreatedAt().toString())
+                    )
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        }catch (NoSuchElementException e) {
+            responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("User not found")));
+        }
     }
 
     @Override

@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@ToString
 public class Chat {
 
     @Id
@@ -46,6 +45,23 @@ public class Chat {
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ChatMessage> messages;
 
-    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ChatParticipant> members;
+
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                ", ownerId=" + ownerId +
+                ", user1Id=" + user1Id +
+                ", user2Id=" + user2Id +
+                ", createdAt=" + createdAt +
+                ", messages=" + messages.stream().map(ChatMessage::getId).toList() +
+                ", members=" + members.stream().map(member -> member.getId().getUserId()).toList()
+                + '}';
+    }
 }

@@ -10,3 +10,10 @@ server:
 grpc:
   server:
     port: ${LOCAL_GRPC_PORT}
+
+  client:
+    GLOBAL:
+      negotiation-type: plaintext
+    user-service-client:
+      address: ${USER_SERVICE_ADDRESS}
+      negotiationType: PLAINTEXT

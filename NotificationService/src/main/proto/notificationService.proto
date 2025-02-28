@@ -9,6 +9,7 @@ option java_outer_classname = "NotificationServiceProto";
 service NotificationService {
   rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
   rpc GetNotifications(GetNotificationsRequest) returns (GetNotificationsResponse);
+  rpc DeleteAllNotifications(DeleteAllNotificationsRequest) returns (DeleteAllNotificationsResponse);
 }
 
 message SendNotificationRequest {
@@ -37,11 +38,22 @@ message Notif {
   string created_at = 4;
 }
 
+message DeleteAllNotificationsRequest {
+  int64 user_id = 1;
+}
+
+message DeleteAllNotificationsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
 
 service SubscriptionService {
   rpc SubscribeToNotifications(SubscribeToNotificationsRequest) returns (SubscribeToNotificationsResponse);
   rpc UnsubscribeFromNotifications(UnsubscribeFromNotificationsRequest) returns (UnsubscribeFromNotificationsResponse);
   rpc GetUserSubscriptions(GetUserSubscriptionsRequest) returns (GetUserSubscriptionsResponse);
+  rpc DeleteAllSubscriptions(DeleteAllSubscriptionsRequest) returns (DeleteAllSubscriptionsResponse);
+  rpc CreateAllSubscriptions(CreateAllSubscriptionsRequest) returns (CreateAllSubscriptionsResponse);
 }
 
 message SubscribeToNotificationsRequest {
@@ -71,4 +83,22 @@ message GetUserSubscriptionsRequest {
 message GetUserSubscriptionsResponse {
   bool messages = 1;
   bool chats = 2;
+}
+
+message DeleteAllSubscriptionsRequest {
+  int64 user_id = 1;
+}
+
+message DeleteAllSubscriptionsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message CreateAllSubscriptionsRequest {
+  int64 user_id = 1;
+}
+
+message CreateAllSubscriptionsResponse {
+  bool success = 1;
+  string message = 2;
 }

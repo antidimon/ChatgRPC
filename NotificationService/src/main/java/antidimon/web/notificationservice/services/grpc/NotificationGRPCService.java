@@ -2,10 +2,7 @@ package antidimon.web.notificationservice.services.grpc;
 
 
 import antidimon.web.notificationservice.models.dto.NotificationOutputDTO;
-import antidimon.web.notificationservice.proto.GetNotificationsResponse;
-import antidimon.web.notificationservice.proto.SendNotificationRequest;
-import antidimon.web.notificationservice.proto.SendNotificationResponse;
-import antidimon.web.notificationservice.proto.Notif;
+import antidimon.web.notificationservice.proto.*;
 import antidimon.web.notificationservice.services.inner.NotificationService;
 import io.grpc.Status;
 import io.grpc.StatusException;
@@ -24,11 +21,10 @@ public class NotificationGRPCService extends antidimon.web.notificationservice.p
     @Override
     public void sendNotification(SendNotificationRequest request, StreamObserver<SendNotificationResponse> responseObserver) {
         try {
-            notificationService.sendNotification(request.getUserId(), request.getType(), request.getMessage());
-
+            boolean flag = notificationService.sendNotification(request.getUserId(), request.getType(), request.getMessage());
             SendNotificationResponse resp = SendNotificationResponse.newBuilder()
-                    .setSuccess(true)
-                    .setMessage("Notification sent successfully")
+                    .setSuccess(flag)
+                    .setMessage((flag) ? "Notification sent successfully" : "Not subscribed")
                     .build();
 
             responseObserver.onNext(resp);
@@ -60,6 +56,25 @@ public class NotificationGRPCService extends antidimon.web.notificationservice.p
 
             responseObserver.onNext(resp);
             responseObserver.onCompleted();
+        }catch (Exception e){
+            responseObserver.onError(new StatusException(Status.INTERNAL));
+        }
+    }
+
+
+    @Override
+    public void deleteAllNotifications(DeleteAllNotificationsRequest request, StreamObserver<DeleteAllNotificationsResponse> responseObserver) {
+        try {
+            this.notificationService.deleteAllNotifications(request.getUserId());
+
+            DeleteAllNotificationsResponse response = DeleteAllNotificationsResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Notifications deleted")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
         }catch (Exception e){
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }

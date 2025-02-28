@@ -45,8 +45,9 @@
               <node kind="schema" qname="@" />
             </node>
             <node kind="database">
-              <name qname="notificationDB" />
               <name qname="msgDB" />
+              <name qname="usersDB" />
+              <name qname="notificationDB" />
             </node>
           </node>
         </introspection-scope>

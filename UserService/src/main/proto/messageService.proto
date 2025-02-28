@@ -125,7 +125,7 @@ message DeleteGroupChatResponse {
 }
 
 message CreatePrivateChatRequest {
-  int64 user1_id = 1;
+  int64 creator_id = 1;
   int64 user2_id = 2;
 }
 

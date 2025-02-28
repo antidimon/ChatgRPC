@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
-    @Query(value = "SELECT * FROM chats WHERE user1_id = :id OR user2_id = :id OR owner_id = :id", nativeQuery = true)
-    List<Chat> findUserPrivateAndOwnerChats(@Param("id") long userId);
+    @Query(value = "SELECT * FROM chats WHERE user1_id = :id OR user2_id = :id", nativeQuery = true)
+    List<Chat> findUserPrivateChats(@Param("id") long userId);
 
     @Query(value = "SELECT c.* FROM chat_participants cs LEFT JOIN chats c ON c.id = cs.chat_id WHERE cs.user_id = :id", nativeQuery = true)
     List<Chat> findUserMemberChats(@Param("id") long userId);

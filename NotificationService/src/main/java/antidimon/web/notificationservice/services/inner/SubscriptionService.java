@@ -30,13 +30,18 @@ public class SubscriptionService {
             existingSubscription.setActive(true);
             this.saveSubscription(existingSubscription);
         } else {
-            Subscription newSubscription = Subscription.builder()
-                    .userId(userId)
-                    .subType(SubscriptionType.valueOf(type))
-                    .isActive(true)
-                    .build();
-            this.saveSubscription(newSubscription);
+            this.createSubscription(userId, type);
         }
+    }
+
+    @Transactional
+    protected void createSubscription(long userId, String type) {
+        Subscription newSubscription = Subscription.builder()
+                .userId(userId)
+                .subType(SubscriptionType.valueOf(type))
+                .isActive(true)
+                .build();
+        this.saveSubscription(newSubscription);
     }
 
     @Transactional
@@ -51,5 +56,22 @@ public class SubscriptionService {
         var map = new HashMap<SubscriptionType, Boolean>();
         subscriptions.forEach(subscription -> map.put(subscription.getSubType(), subscription.isActive()));
         return map;
+    }
+
+    @Transactional
+    public void deleteAllSubscriptions(long userId) {
+        this.subscriptionRepository.deleteAllByUserId(userId);
+    }
+
+    @Transactional
+    public void createAllSubscriptions(long userId) {
+        this.createSubscription(userId, "CHAT");
+        this.createSubscription(userId, "MESSAGE");
+    }
+
+    public boolean isUserSubscribed(long userId, String type) {
+        Subscription subscription = subscriptionRepository
+                .findSubscriptionByUserIdAndSubType(userId, SubscriptionType.valueOf(type));
+        return subscription.isActive();
     }
 }

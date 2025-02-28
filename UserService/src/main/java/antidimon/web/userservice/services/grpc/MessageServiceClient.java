@@ -22,8 +22,6 @@ public class MessageServiceClient {
     public void deleteUserFromChats(long userId) throws StatusRuntimeException {
         DeleteUserChatsRequest request = DeleteUserChatsRequest.newBuilder().setUserId(userId).build();
 
-        log.info("Requested messageService to delete user from chats");
-
         DeleteUserChatsResponse response = chatsStub.deleteUserChats(request);
 
         if (response.getSuccess()){

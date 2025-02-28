@@ -7,7 +7,9 @@ import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import antidimon.web.userservice.repositories.ChatUserRepository;
 import antidimon.web.userservice.services.grpc.MessageServiceClient;
+import antidimon.web.userservice.services.grpc.NotificationServiceClient;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +19,10 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ChatUserService {
 
+    private NotificationServiceClient notificationServiceClient;
     private ChatUserRepository chatUserRepository;
     private ChatUserMapper chatUserMapper;
     private MessageServiceClient messageServiceClient;
@@ -48,6 +52,7 @@ public class ChatUserService {
     @Transactional
     protected long saveUser(ChatUser chatUser) throws DataIntegrityViolationException {
         chatUserRepository.save(chatUser);
+        notificationServiceClient.createSubscriptions(chatUser.getId());
         return chatUser.getId();
     }
 
@@ -74,9 +79,10 @@ public class ChatUserService {
     @Transactional
     public long deleteUser(String username) throws NoSuchElementException {
         ChatUser chatUser = this.getUserEntity(username);
+        log.info("Deleting user {}", chatUser.getId());
         chatUserRepository.delete(chatUser);
-
         messageServiceClient.deleteUserFromChats(chatUser.getId());
+        notificationServiceClient.deleteAllInfo(chatUser.getId());
 
         return chatUser.getId();
     }

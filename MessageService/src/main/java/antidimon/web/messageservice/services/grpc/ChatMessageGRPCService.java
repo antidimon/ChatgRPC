@@ -104,4 +104,6 @@ public class ChatMessageGRPCService extends antidimon.web.messageservice.proto.M
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
+
+
 }

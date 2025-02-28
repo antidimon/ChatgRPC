@@ -9,6 +9,7 @@ import io.grpc.Status;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import java.util.List;
@@ -16,8 +17,10 @@ import java.util.NoSuchElementException;
 
 @GrpcService
 @AllArgsConstructor
+@Slf4j
 public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServiceGrpc.ChatServiceImplBase {
     private ChatService chatService;
+    private ChatMessageService chatMessageService;
 
     @Override
     public void createGroupChat(CreateGroupChatRequest request, StreamObserver<CreateGroupChatResponse> responseObserver) {
@@ -118,7 +121,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
     @Override
     public void createPrivateChat(CreatePrivateChatRequest request, StreamObserver<CreatePrivateChatResponse> responseObserver) {
         try {
-            long chatId = chatService.createPrivateChat(request.getUser1Id(), request.getUser2Id());
+            long chatId = chatService.createPrivateChat(request.getCreatorId(), request.getUser2Id());
 
             CreatePrivateChatResponse response = CreatePrivateChatResponse.newBuilder()
                     .setSuccess(true)
@@ -139,7 +142,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
     @Override
     public void getPrivateChat(GetPrivateChatRequest request, StreamObserver<GetPrivateChatResponse> responseObserver) {
         try {
-            PrivateChatOutputDTO chatOutputDTO = chatService.getPrivateChatMembers(request.getChatId());
+            PrivateChatOutputDTO chatOutputDTO = chatService.getPrivateChat(request.getChatId());
             GetPrivateChatResponse response = GetPrivateChatResponse.newBuilder()
                     .setId(request.getChatId())
                     .setUser1Id(chatOutputDTO.getUser1Id())
@@ -193,7 +196,6 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(noSuchElementException.getMessage())));
         }catch (Exception e){
-            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -213,7 +215,6 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(noSuchElementException.getMessage())));
         }catch (Exception e){
-            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -250,7 +251,6 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chats")));
         }catch (Exception e){
-            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -259,6 +259,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
     public void deleteUserChats(DeleteUserChatsRequest request, StreamObserver<DeleteUserChatsResponse> responseObserver) {
         try {
             chatService.deleteUserChats(request.getUserId());
+            chatMessageService.deleteUserMessagesFromGroupChats(request.getUserId());
 
             DeleteUserChatsResponse response = DeleteUserChatsResponse.newBuilder()
                     .setSuccess(true)

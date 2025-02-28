@@ -8,9 +8,11 @@ import antidimon.web.messageservice.models.ChatType;
 import antidimon.web.messageservice.models.dto.chat.*;
 import antidimon.web.messageservice.repositories.ChatParticipantRepository;
 import antidimon.web.messageservice.repositories.ChatRepository;
+import antidimon.web.messageservice.services.grpc.NotificationServiceClient;
 import antidimon.web.messageservice.services.grpc.UserServiceClient;
 import io.grpc.StatusRuntimeException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +23,12 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ChatService {
+
+    private NotificationServiceClient notificationServiceClient;
     private UserServiceClient userServiceClient;
-    private final ChatMapper chatMapper;
+    private ChatMapper chatMapper;
     private ChatRepository chatRepository;
     private ChatParticipantRepository chatParticipantRepository;
 
@@ -42,9 +47,28 @@ public class ChatService {
         return chatId;
     }
 
+    @Transactional
+    public long createPrivateChat(long creatorId, long user2Id) throws NoSuchElementException {
+        this.checkIfUserExist(List.of(creatorId, user2Id));
+        Chat chat = Chat.builder()
+                .type(ChatType.PRIVATE)
+                .user1Id(creatorId)
+                .user2Id(user2Id)
+                .build();
+
+        long id = chatRepository.save(chat).getId();
+        notificationServiceClient.sendChatNotification(user2Id, "New private chat with id " + id);
+        return id;
+    }
+
     public GroupChatOutputDTO getGroupChat(long chatId) throws NoSuchElementException {
         Chat chat = this.getChat(chatId);
         return chatMapper.toGroupOutputDTO(chat);
+    }
+
+    public PrivateChatOutputDTO getPrivateChat(long chatId) throws NoSuchElementException{
+        Chat chat = this.getChat(chatId);
+        return chatMapper.toPrivateOutputDTO(chat);
     }
 
     @Transactional
@@ -57,25 +81,55 @@ public class ChatService {
         chatRepository.save(chat);
     }
 
-    @Transactional
-    public long createPrivateChat(long user1Id, long user2Id) throws NoSuchElementException {
-        this.checkIfUserExist(List.of(user1Id, user2Id));
-        Chat chat = Chat.builder()
-                .type(ChatType.PRIVATE)
-                .user1Id(user1Id)
-                .user2Id(user2Id)
-                .build();
-
-        return chatRepository.save(chat).getId();
+    public List<Chat> getUserChats(long userId){
+        List<Chat> chats = chatRepository.findUserPrivateChats(userId);
+        chats.addAll(chatRepository.findUserMemberChats(userId));
+        return chats;
     }
 
-    public PrivateChatOutputDTO getPrivateChatMembers(long chatId) throws NoSuchElementException{
+    public List<ChatOutputDTO> getUserChatsDTO(long userId) {
+        List<Chat> chats = this.getUserChats(userId);
+        return chats.stream().map(chatMapper::toOutputDTO).toList();
+    }
+
+    @Transactional
+    public void deletePrivateChat(long chatId) throws NoSuchElementException, IllegalArgumentException{
         Chat chat = this.getChat(chatId);
-        return PrivateChatOutputDTO.builder()
-                .user1Id(chat.getUser1Id())
-                .user2Id(chat.getUser2Id())
-                .createdAt(chat.getCreatedAt())
-                .build();
+        if (chat.getType().equals(ChatType.PRIVATE)) {
+            chatRepository.delete(chat);
+            notificationServiceClient.sendChatNotification(chat.getUser1Id(),
+                    "Deleted private chat with id " + chat.getId());
+            notificationServiceClient.sendChatNotification(chat.getUser2Id(),
+                    "Deleted private chat with id " + chat.getId());
+            return;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Transactional
+    public void deleteGroupChat(long chatId) throws NoSuchElementException, IllegalArgumentException{
+        Chat chat = this.getChat(chatId);
+        if (chat.getType().equals(ChatType.GROUP)) {
+            chatRepository.delete(chat);
+            for (ChatParticipant chatParticipant : chat.getMembers()) {
+                notificationServiceClient.sendChatNotification(chatParticipant.getId().getUserId(),
+                        "Deleted group chat with id " + chat.getId());
+            }
+            return;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Transactional
+    public void deleteUserChats(long userId) {
+        List<Chat> chats = this.getUserChats(userId);
+        for (Chat chat : chats) {
+            if (chat.getType().equals(ChatType.PRIVATE)) {
+                this.deletePrivateChat(chat.getId());
+            }else{
+                this.kickUserFromGroupChat(chat.getId(), userId);
+            }
+        }
     }
 
     @Transactional
@@ -89,50 +143,8 @@ public class ChatService {
         chat.getMembers().add(chatParticipant);
 
         chatRepository.save(chat);
+        notificationServiceClient.sendChatNotification(userId, "New group chat with id " + chat.getId());
     }
-
-    public List<Chat> getUserChats(long userId){
-        List<Chat> chats = chatRepository.findUserPrivateAndOwnerChats(userId);
-        chats.addAll(chatRepository.findUserMemberChats(userId));
-        return chats;
-    }
-
-    public List<ChatOutputDTO> getUserChatsDTO(long userId) {
-        List<Chat> chats = this.getUserChats(userId);
-        return chats.stream().map(chatMapper::toOutputDTO).toList();
-    }
-
-    @Transactional
-    public void deletePrivateChat(long chatId) throws NoSuchElementException, IllegalArgumentException{
-        Chat chat = this.getChat(chatId);
-        if (chat.getType().equals(ChatType.PRIVATE)) chatRepository.delete(chat);
-        throw new IllegalArgumentException();
-    }
-
-    @Transactional
-    public void deleteGroupChat(long chatId) throws NoSuchElementException, IllegalArgumentException{
-        Chat chat = this.getChat(chatId);
-        if (chat.getType().equals(ChatType.GROUP)) {
-            chatRepository.delete(chat);
-            return;
-        }
-        throw new IllegalArgumentException();
-    }
-
-
-
-    @Transactional
-    public void deleteUserChats(long userId) {
-        List<Chat> chats = this.getUserChats(userId);
-        for (Chat chat : chats) {
-            if (chat.getType().equals(ChatType.PRIVATE)) {
-                chatRepository.delete(chat);
-            }else{
-                this.kickUserFromGroupChat(chat.getId(), userId);
-            }
-        }
-    }
-
 
 
     @Transactional
@@ -145,7 +157,7 @@ public class ChatService {
         if (chat.getMembers().size() == 1) {
             this.deleteGroupChat(chatId);
         }else {
-            this.kickParticipantFromChat(chat, userId);
+            this.doKickUser(chat, userId);
             if (chat.getOwnerId() == userId) {
                 var newMembers = new ArrayList<>(chat.getMembers().stream()
                         .filter(member -> member.getId().getUserId() != userId).toList());
@@ -155,17 +167,15 @@ public class ChatService {
                         .filter(member -> member.getId().getUserId() != userId)
                         .findFirst().get().getId().getUserId());
 
-                System.out.println(chat);
                 chatRepository.save(chat);
             }
         }
     }
 
     @Transactional
-    public void kickParticipantFromChat(Chat chat, long userId){
-        ChatParticipantPK pk = new ChatParticipantPK(chat.getId(), userId);
-        ChatParticipant chatParticipant = chatParticipantRepository.findById(pk).get();
-        chatParticipantRepository.delete(chatParticipant);
+    public void doKickUser(Chat chat, long userId){
+        chatParticipantRepository.deleteMember(chat.getId(), userId);
+        notificationServiceClient.sendChatNotification(userId, "You were kicked from chat " + chat.getId());
     }
 
     private void checkIfUserExist(List<Long> list) throws NoSuchElementException {

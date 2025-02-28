@@ -2,11 +2,7 @@ package antidimon.web.notificationservice.services.grpc;
 
 
 import antidimon.web.notificationservice.models.SubscriptionType;
-import antidimon.web.notificationservice.proto.GetUserSubscriptionsResponse;
-import antidimon.web.notificationservice.proto.SubscribeToNotificationsRequest;
-import antidimon.web.notificationservice.proto.SubscribeToNotificationsResponse;
-import antidimon.web.notificationservice.proto.UnsubscribeFromNotificationsRequest;
-import antidimon.web.notificationservice.proto.UnsubscribeFromNotificationsResponse;
+import antidimon.web.notificationservice.proto.*;
 import antidimon.web.notificationservice.services.inner.SubscriptionService;
 import io.grpc.Status;
 import io.grpc.StatusException;
@@ -36,7 +32,6 @@ public class SubscriptionGRPCService extends antidimon.web.notificationservice.p
             responseObserver.onCompleted();
 
         }catch (Exception e){
-            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -55,7 +50,6 @@ public class SubscriptionGRPCService extends antidimon.web.notificationservice.p
             responseObserver.onCompleted();
 
         }catch (Exception e){
-            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -74,7 +68,42 @@ public class SubscriptionGRPCService extends antidimon.web.notificationservice.p
             responseObserver.onCompleted();
 
         }catch (Exception e){
-            e.printStackTrace();
+            responseObserver.onError(new StatusException(Status.INTERNAL));
+        }
+    }
+
+    @Override
+    public void deleteAllSubscriptions(DeleteAllSubscriptionsRequest request, StreamObserver<DeleteAllSubscriptionsResponse> responseObserver) {
+        try {
+            this.subscriptionService.deleteAllSubscriptions(request.getUserId());
+
+            DeleteAllSubscriptionsResponse response = DeleteAllSubscriptionsResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Subscriptions deleted")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        }catch (Exception e){
+            responseObserver.onError(new StatusException(Status.INTERNAL));
+        }
+    }
+
+    @Override
+    public void createAllSubscriptions(CreateAllSubscriptionsRequest request, StreamObserver<CreateAllSubscriptionsResponse> responseObserver) {
+        try {
+            this.subscriptionService.createAllSubscriptions(request.getUserId());
+
+            CreateAllSubscriptionsResponse response = CreateAllSubscriptionsResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Subscriptions created")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        }catch (Exception e){
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }

@@ -14,6 +14,11 @@ grpc:
   client:
     GLOBAL:
       negotiation-type: plaintext
+
     user-service-client:
       address: ${USER_SERVICE_ADDRESS}
+      negotiationType: PLAINTEXT
+
+    notification-service-client:
+      address: ${NOTIFICATION_SERVICE_ADDRESS}
       negotiationType: PLAINTEXT

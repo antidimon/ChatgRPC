@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package antidimon.web.notificationservice;
+
+option java_multiple_files = true;
+option java_package = "antidimon.web.notificationservice.proto";
+option java_outer_classname = "NotificationServiceProto";
+
+service NotificationService {
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+  rpc GetNotifications(GetNotificationsRequest) returns (GetNotificationsResponse);
+  rpc DeleteAllNotifications(DeleteAllNotificationsRequest) returns (DeleteAllNotificationsResponse);
+}
+
+message SendNotificationRequest {
+  int64 user_id = 1;
+  string type = 2;
+  string message = 3;
+}
+
+message SendNotificationResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetNotificationsRequest {
+  int64 user_id = 1;
+}
+
+message GetNotificationsResponse {
+  repeated Notif notifications = 1;
+}
+
+message Notif {
+  int64 id = 1;
+  string type = 2;
+  string msg = 3;
+  string created_at = 4;
+}
+
+message DeleteAllNotificationsRequest {
+  int64 user_id = 1;
+}
+
+message DeleteAllNotificationsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+
+service SubscriptionService {
+  rpc SubscribeToNotifications(SubscribeToNotificationsRequest) returns (SubscribeToNotificationsResponse);
+  rpc UnsubscribeFromNotifications(UnsubscribeFromNotificationsRequest) returns (UnsubscribeFromNotificationsResponse);
+  rpc GetUserSubscriptions(GetUserSubscriptionsRequest) returns (GetUserSubscriptionsResponse);
+  rpc DeleteAllSubscriptions(DeleteAllSubscriptionsRequest) returns (DeleteAllSubscriptionsResponse);
+  rpc CreateAllSubscriptions(CreateAllSubscriptionsRequest) returns (CreateAllSubscriptionsResponse);
+}
+
+message SubscribeToNotificationsRequest {
+  int64 user_id = 1;
+  string type = 2;
+}
+
+message SubscribeToNotificationsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message UnsubscribeFromNotificationsRequest {
+  int64 user_id = 1;
+  string type = 2;
+}
+
+message UnsubscribeFromNotificationsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetUserSubscriptionsRequest {
+  int64 user_id = 1;
+}
+
+message GetUserSubscriptionsResponse {
+  bool messages = 1;
+  bool chats = 2;
+}
+
+message DeleteAllSubscriptionsRequest {
+  int64 user_id = 1;
+}
+
+message DeleteAllSubscriptionsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message CreateAllSubscriptionsRequest {
+  int64 user_id = 1;
+}
+
+message CreateAllSubscriptionsResponse {
+  bool success = 1;
+  string message = 2;
+}

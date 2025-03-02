@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/UserService/MessageService/pom.xml" />
         <option value="$PROJECT_DIR$/MessageService/pom.xml" />
         <option value="$PROJECT_DIR$/NotificationService/pom.xml" />
+        <option value="$PROJECT_DIR$/Front/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

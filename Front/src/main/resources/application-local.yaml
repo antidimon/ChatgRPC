@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: ${DB_LOCAL_URL}
+
+
+server:
+  port: ${LOCAL_SERVER_PORT}
+  servlet:
+    context-path: /
+
+grpc:
+  client:
+    GLOBAL:
+      negotiation-type: plaintext
+
+    user-service-client:
+      address: ${USER_SERVICE_ADDRESS}
+      negotiationType: PLAINTEXT
+
+    notification-service-client:
+      address: ${NOTIFICATION_SERVICE_ADDRESS}
+      negotiationType: PLAINTEXT
+
+    message-service-client:
+      address: ${MESSAGE_SERVICE_ADDRESS}
+      negotiationType: PLAINTEXT

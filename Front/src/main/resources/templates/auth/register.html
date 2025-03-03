@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
-    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -15,31 +15,32 @@
             <div class="form-group">
                 <i class="fas fa-user"></i>
                 <input type="text" id="username" name="username" placeholder="Логин" required>
-                <div id="usernameError" style="color: red; font-size: 12px;"></div>
+                <div id="usernameError" style="color: red; font-size: 12px;" th:text="${errors['username']} ? 'Логин уже существует' : ''"></div>
             </div>
 
             <div class="form-group">
                 <i class="fas fa-id-card"></i>
                 <input type="text" id="name" name="name" placeholder="Имя" required>
+                <!-- Если нет ошибки для имени, то оставляем это поле без ошибок -->
                 <div id="nameError" style="color: red; font-size: 12px;"></div>
             </div>
 
             <div class="form-group">
                 <i class="fas fa-birthday-cake"></i>
                 <input type="number" id="age" name="age" placeholder="Возраст" required>
-                <div id="ageError" style="color: red; font-size: 12px;"></div>
+                <div id="ageError" style="color: red; font-size: 12px;" th:text="${errors['age']} ? 'Возраст должен быть в диапазоне от 18 до 100 лет' : ''"></div>
             </div>
 
             <div class="form-group">
                 <i class="fas fa-envelope"></i>
                 <input type="email" id="email" name="email" placeholder="Электронная почта" required>
-                <div id="emailError" style="color: red; font-size: 12px;"></div>
+                <div id="emailError" style="color: red; font-size: 12px;" th:text="${errors['email']} ? 'Электронная почта уже существует' : ''"></div>
             </div>
 
             <div class="form-group">
                 <i class="fas fa-phone"></i>
                 <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Номер телефона" required>
-                <div id="phoneNumberError" style="color: red; font-size: 12px;"></div>
+                <div id="phoneNumberError" style="color: red; font-size: 12px;" th:text="${errors['phoneNumber']} ? 'Номер телефона уже существует' : ''"></div>
             </div>
 
             <div class="form-group">
@@ -56,6 +57,6 @@
     </div>
 </div>
 
-<script src="/js/register.js"></script>
+<script th:src="@{/js/register.js}"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@ public class MyUserRegisterDTO {
 
     @Min(value = 0, message = "min age is 0")
     @Max(value = 100, message = "max age is 100")
-    private int age;
+    private short age;
 
     @NotBlank(message = "email can't be empty")
     @Email(message = "must be email format")

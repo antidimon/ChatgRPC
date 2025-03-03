@@ -55,7 +55,7 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                 responseObserver.onError(new StatusException(Status.INTERNAL.withDescription("Failed to save user")));
             }
         }else {
-            String errorMessage = String.join(", ", errors);
+            String errorMessage = String.join(",", errors);
             responseObserver.onError(new StatusException(Status.INVALID_ARGUMENT.withDescription(errorMessage)));
         }
 

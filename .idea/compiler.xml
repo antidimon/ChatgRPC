@@ -12,7 +12,6 @@
         </processorPath>
         <module name="NotificationService" />
         <module name="UserService" />
-        <module name="Front" />
         <module name="MessageService" />
       </profile>
     </annotationProcessing>

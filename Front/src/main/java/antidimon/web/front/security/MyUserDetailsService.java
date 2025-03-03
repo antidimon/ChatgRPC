@@ -1,6 +1,7 @@
 package antidimon.web.front.security;
 
 import antidimon.web.front.repositories.MyUserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
     private MyUserRepository myUserRepository;

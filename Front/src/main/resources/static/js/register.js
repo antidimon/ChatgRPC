@@ -80,7 +80,7 @@ function checkPassword() {
     }
 }
 
-// Добавляем обработчики событий для каждого поля
+
 usernameInput.addEventListener('input', checkUsername);
 nameInput.addEventListener('input', checkName);
 ageInput.addEventListener('input', checkAge);

@@ -34,7 +34,7 @@ public class AuthController {
             return "redirect:/";
         }
         if (exception != null) {
-            model.addAttribute("error", exception);
+            model.addAttribute("error", true);
         }
         return "auth/login";
     }

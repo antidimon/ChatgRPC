@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11320949-62ca-49d0-8985-ea9cb99ce4e8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/MyUserRegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/MyUserRegisterDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/JwtProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/JwtProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/MyUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/MyUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/MyUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/MyUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/AuthService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/auth/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/auth/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/handlers/AuthFailureHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/security/handlers/AuthFailureHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/auth/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +33,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="CSS File" />
         <option value="Enum" />
+        <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="Class" />
       </list>
@@ -225,6 +218,7 @@
       <workItem from="1740727873585" duration="5049000" />
       <workItem from="1740936639734" duration="9007000" />
       <workItem from="1740988096126" duration="5548000" />
+      <workItem from="1741025477352" duration="4779000" />
     </task>
     <servers />
   </component>

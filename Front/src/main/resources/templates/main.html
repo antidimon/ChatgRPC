@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мессенджер</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="main-container">
+    <div class="top-bar">
+        <div class="header-left">
+            <h2>Мессенджер</h2>
+        </div>
+        <div class="profile-icon">
+            <img src="profile-icon.png" alt="Профиль">
+            <div class="profile-menu">
+                <a href="#">Профиль</a>
+                <a href="#">Выйти</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-frame">
+        <div class="chats-list">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Поиск пользователей...">
+                <button id="search-button">Найти</button>
+            </div>
+            <ul id="chats">
+                <!-- Чаты будут добавлены динамически -->
+            </ul>
+        </div>
+        <div class="chat-window">
+            <!-- Окно чата будет обновляться динамически -->
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

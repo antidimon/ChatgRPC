@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>15757</IntrospectionStateNumber>
+      <IntrospectionStateNumber>15807</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
       <StartupTime>1740041012</StartupTime>
       <TimeZones>true ACDT
@@ -825,7 +817,7 @@ false Zulu
 14697||10|C|G
 14697||-9223372036854775808|U|G
 14697||10|U|G</Grants>
-      <IntrospectionStateNumber>15757</IntrospectionStateNumber>
+      <IntrospectionStateNumber>15807</IntrospectionStateNumber>
       <ObjectId>47805</ObjectId>
       <OwnerName>antidimon</OwnerName>
     </database>
@@ -4272,11 +4264,143 @@ false Zulu
     <schema id="273" parent="6" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>15757</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2025-03-02.20:03:26</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>15807</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-03-04.20:10:35</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
+    <sequence id="274" parent="273" name="users_id_seq">
+      <ObjectId>47815</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>15759</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <OwnerName>antidimon</OwnerName>
+    </sequence>
+    <table id="275" parent="273" name="flyway_schema_history">
+      <ObjectId>47806</ObjectId>
+      <StateNumber>15758</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>antidimon</OwnerName>
+    </table>
+    <table id="276" parent="273" name="users">
+      <ObjectId>47816</ObjectId>
+      <StateNumber>15759</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>antidimon</OwnerName>
+    </table>
+    <column id="277" parent="275" name="installed_rank">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="278" parent="275" name="version">
+      <Position>2</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>varchar(50)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="279" parent="275" name="description">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>varchar(200)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="280" parent="275" name="type">
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>varchar(20)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="281" parent="275" name="script">
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>varchar(1000)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="282" parent="275" name="checksum">
+      <Position>6</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="283" parent="275" name="installed_by">
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>varchar(100)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="284" parent="275" name="installed_on">
+      <DefaultExpression>now()</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>timestamp|0s</StoredType>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="285" parent="275" name="execution_time">
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="286" parent="275" name="success">
+      <NotNull>1</NotNull>
+      <Position>10</Position>
+      <StateNumber>15758</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="287" parent="275" name="flyway_schema_history_pk">
+      <ColNames>installed_rank</ColNames>
+      <ObjectId>47812</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>15758</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="288" parent="275" name="flyway_schema_history_s_idx">
+      <ColNames>success</ColNames>
+      <ObjectId>47814</ObjectId>
+      <StateNumber>15758</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="289" parent="275" name="flyway_schema_history_pk">
+      <ObjectId>47813</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>15758</StateNumber>
+      <UnderlyingIndexId>47812</UnderlyingIndexId>
+    </key>
+    <column id="290" parent="276" name="id">
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>15759</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <SequenceId>47815</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="291" parent="276" name="username">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>15759</StateNumber>
+      <StoredType>varchar(50)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="292" parent="276" name="password">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>15759</StateNumber>
+      <StoredType>varchar|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
   </database-model>
 </dataSource>

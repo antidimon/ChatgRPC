@@ -5,7 +5,6 @@ CREATE TABLE users (
     age smallint NOT NULL CHECK(age > 0 and age < 100),
     email varchar NOT NULL UNIQUE,
     phone_number varchar(11) NOT NULL UNIQUE,
-    password varchar NOT NULL,
     created_at timestamp
 );
 

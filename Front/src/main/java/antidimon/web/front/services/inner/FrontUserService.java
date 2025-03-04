@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.directory.InvalidAttributesException;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
-public class AuthService {
+public class FrontUserService {
 
     private MyUserRepository myUserRepository;
     private PasswordEncoder passwordEncoder;
@@ -38,5 +39,10 @@ public class AuthService {
 
     private void encodePersonPassword(MyUserRegisterDTO user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+
+    public long getUserId(String username) throws NoSuchElementException {
+
+        return myUserRepository.findByUsername(username).get().getId();
     }
 }

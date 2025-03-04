@@ -36,7 +36,7 @@ public class Config {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers(HttpMethod.POST, "/login", "/register").permitAll();
-                    registry.requestMatchers(HttpMethod.GET,"/css/**", "/js/**","/images/*", "/login", "/register").permitAll();
+                    registry.requestMatchers(HttpMethod.GET,"/css/**", "/js/**","/images/**", "/login", "/register").permitAll();
                     registry.anyRequest().authenticated();})
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer

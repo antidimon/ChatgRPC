@@ -2,7 +2,7 @@ package antidimon.web.front.controllers;
 
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
-import antidimon.web.front.services.inner.AuthService;
+import antidimon.web.front.services.inner.FrontUserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.naming.directory.InvalidAttributesException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 @Controller
@@ -24,7 +23,7 @@ import java.util.HashMap;
 @AllArgsConstructor
 public class AuthController {
 
-    private AuthService authService;
+    private FrontUserService frontUserService;
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false, name = "error") String exception,
@@ -64,7 +63,7 @@ public class AuthController {
             return "auth/register";
         }
         try {
-            authService.save(user);
+            frontUserService.save(user);
         }catch (InvalidAttributesException invalidAttributesException){
             System.out.println("gg1");
             model.addAttribute("user", user);

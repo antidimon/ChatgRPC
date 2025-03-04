@@ -57,7 +57,7 @@ public class ChatService {
                 .build();
 
         long id = chatRepository.save(chat).getId();
-        notificationServiceClient.sendChatNotification(user2Id, "New private chat with id " + id);
+        notificationServiceClient.sendChatNotification(user2Id, "New private chat");
         return id;
     }
 
@@ -98,9 +98,9 @@ public class ChatService {
         if (chat.getType().equals(ChatType.PRIVATE)) {
             chatRepository.delete(chat);
             notificationServiceClient.sendChatNotification(chat.getUser1Id(),
-                    "Deleted private chat with id " + chat.getId());
+                    "Deleted private chat");
             notificationServiceClient.sendChatNotification(chat.getUser2Id(),
-                    "Deleted private chat with id " + chat.getId());
+                    "Deleted private chat");
             return;
         }
         throw new IllegalArgumentException();
@@ -113,7 +113,7 @@ public class ChatService {
             chatRepository.delete(chat);
             for (ChatParticipant chatParticipant : chat.getMembers()) {
                 notificationServiceClient.sendChatNotification(chatParticipant.getId().getUserId(),
-                        "Deleted group chat with id " + chat.getId());
+                        "Deleted group chat");
             }
             return;
         }
@@ -143,7 +143,7 @@ public class ChatService {
         chat.getMembers().add(chatParticipant);
 
         chatRepository.save(chat);
-        notificationServiceClient.sendChatNotification(userId, "New group chat with id " + chat.getId());
+        notificationServiceClient.sendChatNotification(userId, "New group chat");
     }
 
 
@@ -175,7 +175,7 @@ public class ChatService {
     @Transactional
     public void doKickUser(Chat chat, long userId){
         chatParticipantRepository.deleteMember(chat.getId(), userId);
-        notificationServiceClient.sendChatNotification(userId, "You were kicked from chat " + chat.getId());
+        notificationServiceClient.sendChatNotification(userId, "You were kicked from chat");
     }
 
     private void checkIfUserExist(List<Long> list) throws NoSuchElementException {

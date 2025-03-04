@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ChatMessageOutputDTO {
 
     private long id;
-    private long senderID;
+    private long senderId;
     private String message;
     private LocalDateTime createdAt;
 }

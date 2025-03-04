@@ -1,41 +1,51 @@
 // Добавление чатов в список
 const chatsList = document.getElementById('chats');
 
-// Пример данных о чатах
-const chatsData = [
-    { id: 1, name: 'Чат 1' },
-    { id: 2, name: 'Чат 2' },
-    { id: 3, name: 'Чат 3' },
-];
+// Функция для обновления списка чатов на странице
+function updateChatsList(chats) {
+    chatsList.innerHTML = ''; // Очистка списка
 
-chatsData.forEach((chat) => {
-    const chatItem = document.createElement('LI');
-    chatItem.textContent = chat.name;
-    chatItem.addEventListener('click', () => {
-        // Обновление окна чата при клике на чат
-        updateChatWindow(chat.id);
+    chats.forEach((chat) => {
+        const chatItem = document.createElement('LI');
+        chatItem.textContent = chat.name;
+        chatItem.addEventListener('click', () => {
+            // Обновление окна чата при клике на чат
+            updateChatWindow(chat.chatId);
+        });
+        chatsList.appendChild(chatItem);
     });
-    chatsList.appendChild(chatItem);
-});
+}
 
 // Обновление окна чата
-function updateChatWindow(chatId) {
+async function updateChatWindow(chatId) {
     const chatWindow = document.querySelector('.chat-window');
-    chatWindow.innerHTML = '';
+    chatWindow.innerHTML = ''; // Очистка окна чата
 
-    // Пример сообщений в чате
-    const messages = [
-        { text: 'Привет!', type: 'received' },
-        { text: 'Привет! Как дела?', type: 'sent' },
-        { text: 'Хорошо, спасибо!', type: 'received' },
-    ];
+    try {
+        // URL API для получения сообщений
+        const messagesApiUrl = `/api/chats/${chatId}/messages`;
 
-    messages.forEach((message) => {
-        const messageElement = document.createElement('DIV');
-        messageElement.textContent = message.text;
-        messageElement.classList.add('chat-message', message.type);
-        chatWindow.appendChild(messageElement);
-    });
+        // Отправка GET-запроса на сервер
+        const response = await fetch(messagesApiUrl);
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP! status: ${response.status}`);
+        }
+        const messages = await response.json();
+        console.log(messages); // Вывод полученных сообщений в консоль
+
+        // Отображение сообщений в окне чата
+        messages.forEach((message) => {
+            const messageElement = document.createElement('DIV');
+            messageElement.textContent = message.message;
+            messageElement.title = message.senderId;
+            chatWindow.appendChild(messageElement);
+            
+        });
+        // Прокрутка вниз
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
 
 // Поиск пользователей
@@ -50,9 +60,31 @@ document.getElementById('search-button').addEventListener('click', () => {
     }
 });
 
+// Функция для получения чатов
+async function fetchChats() {
+    try {
+        // URL API для получения чатов
+        const chatsApiUrl = '/api/chats';
 
+        // Отправка GET-запроса на сервер
+        const response = await fetch(chatsApiUrl);
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP! status: ${response.status}`);
+        }
+        const chats = await response.json();
+        console.log(chats); // Вывод полученных чатов в консоль
 
+        // Обновление списка чатов на странице
+        updateChatsList(chats);
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+}
 
+// Вызов функции для получения чатов при загрузке страницы
+fetchChats();
+
+// Дополнительный код для работы с меню профиля
 const profileIcon = document.querySelector('.profile-icon');
 const profileMenu = document.querySelector('.profile-menu');
 

@@ -37,10 +37,10 @@ body {
 }
 
 .profile-icon img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    vertical-align: middle; /* Выравнивание по вертикали относительно текста */
+    width: 90px;
+    height: 60px;
+    border-radius: 60%;
+    vertical-align: middle;
 }
 
 .profile-menu {

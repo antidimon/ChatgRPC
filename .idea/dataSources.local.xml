@@ -48,6 +48,7 @@
               <name qname="msgDB" />
               <name qname="usersDB" />
               <name qname="notificationDB" />
+              <name qname="securDB" />
             </node>
           </node>
         </introspection-scope>

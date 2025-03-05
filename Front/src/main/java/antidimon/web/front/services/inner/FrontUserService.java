@@ -45,4 +45,8 @@ public class FrontUserService {
 
         return myUserRepository.findByUsername(username).get().getId();
     }
+
+    public String getUsername(long senderId) {
+        return myUserRepository.findById(senderId).get().getUsername();
+    }
 }

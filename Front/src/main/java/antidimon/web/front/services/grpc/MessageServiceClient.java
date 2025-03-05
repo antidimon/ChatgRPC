@@ -2,6 +2,7 @@ package antidimon.web.front.services.grpc;
 
 import antidimon.web.front.models.dto.chats.ChatOutputDTO;
 import antidimon.web.front.models.dto.messages.ChatMessageOutputDTO;
+import antidimon.web.front.models.dto.messages.FrontMessageDTO;
 import antidimon.web.front.models.enums.ChatType;
 import antidimon.web.messageservice.proto.*;
 import io.grpc.StatusRuntimeException;
@@ -58,4 +59,6 @@ public class MessageServiceClient {
                         .build())
                 .toList();
     }
+
+
 }

@@ -20,7 +20,7 @@ body {
     width: 60%;
     padding: 10px;
     background-color: transparent;
-    align-items: center; /* Вертикальное выравнивание */
+    align-items: center;
     margin-bottom: -20px;
     position: relative;
 }
@@ -28,7 +28,7 @@ body {
 .header-left {
     font-size: 24px;
     color: rgba(255, 255, 255, 0.8);
-    align-self: center; /* Выравнивание по центру */
+    align-self: center;
 }
 
 .profile-icon {
@@ -52,7 +52,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    z-index: 1000; /* Отображение поверх всех элементов */
+    z-index: 1000;
 }
 
 .profile-icon:hover .profile-menu {
@@ -66,7 +66,7 @@ body {
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
     background-color: #fff;
     border-radius: 20px;
-    height: 800px; /* Увеличена высота */
+    height: 800px;
     position: relative;
 }
 
@@ -83,14 +83,17 @@ body {
 
 .chat-window {
     flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
+    padding: 0;
+    background-color: #b4effb;
     border-left: 1px solid #ddd;
     height: 100%;
     overflow-y: auto;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .search-bar {
@@ -144,18 +147,114 @@ body {
     background-color: #e0e0e0;
 }
 
-/* Стили для окна чата */
-.chat-message {
-    margin-bottom: 10px;
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #e4e4e4;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.chat-type-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#chat-name {
+    font-size: 18px;
+}
+
+.chat-menu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: #333;
     padding: 10px;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
 
-.sent {
-    background-color: #a1c9f2;
-    align-self: flex-end;
+.chat-messages-container {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #b4effb;
+    border-left: 1px solid #ddd;
+    overflow-y: auto;
+    width: 100%; /* Убедимся, что ширина равна 100% */
+    box-sizing: border-box;
 }
 
-.received {
-    background-color: #ddd;
+.chat-input {
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+#send-message-form {
+    display: flex;
+    width: 100%;
+}
+
+#new-message {
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+#send-button {
+    padding: 10px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #ff9900;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.chat-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    min-width: 10%; /* Минимальная ширина */
+    max-width: 70%; /* Максимальная ширина */
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message.sent {
+    background-color: #cff39f;
+    margin-left: auto;
+    color: #2c2c2c;
+}
+
+.chat-message.received {
+    background-color: #d5d5d5;
+    margin-right: auto;
+    color: #2c2c2c;
+}
+
+.chat-message .sender-username {
+    font-size: 0.9em;
+    color: #403f3f;
+    font-weight: bold;
+    margin-bottom: 5px;
+    word-break: break-word; /* Добавлено для переноса длинных имён */
+}
+
+.chat-message .message-text {
+    word-break: break-word;
 }

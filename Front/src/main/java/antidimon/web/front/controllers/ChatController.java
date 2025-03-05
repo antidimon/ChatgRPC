@@ -3,8 +3,10 @@ package antidimon.web.front.controllers;
 
 import antidimon.web.front.models.dto.chats.ChatOutputDTO;
 import antidimon.web.front.models.dto.messages.ChatMessageOutputDTO;
+import antidimon.web.front.models.dto.messages.FrontMessageDTO;
 import antidimon.web.front.security.JwtProvider;
 import antidimon.web.front.services.grpc.MessageServiceClient;
+import antidimon.web.front.services.inner.FrontChatsService;
 import antidimon.web.front.services.inner.FrontUserService;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -30,7 +32,7 @@ public class ChatController {
     private MessageServiceClient messageServiceClient;
 
     private FrontUserService frontUserService;
-
+    private FrontChatsService frontChatsService;
     private JwtProvider jwtProvider;
 
     @GetMapping("/chats")
@@ -38,7 +40,7 @@ public class ChatController {
         List<ChatOutputDTO> chats;
         try {
             long userId = frontUserService.getUserId(jwtProvider.getUsername(request.getCookies()));
-            chats = messageServiceClient.getUserChats(userId);
+            chats = frontChatsService.getUserChats(userId);
 
             log.info("Got user chats {}", userId);
 
@@ -54,11 +56,12 @@ public class ChatController {
     }
 
     @GetMapping("/chats/{chatId}/messages")
-    public ResponseEntity<List<ChatMessageOutputDTO>> getChatMessages(@PathVariable long chatId) {
-        List<ChatMessageOutputDTO> chatMessages;
+    public ResponseEntity<List<FrontMessageDTO>> getChatMessages(@PathVariable long chatId, HttpServletRequest request) {
+        List<FrontMessageDTO> chatMessages;
         log.info("Request for chats");
         try {
-            chatMessages = messageServiceClient.getChatMessages(chatId);
+            String username = jwtProvider.getUsername(request.getCookies());
+            chatMessages = frontChatsService.getMessagesByChat(chatId, username);
         } catch (StatusRuntimeException e) {
             log.warn("Got no chat messages {}", e.getCause().getMessage());
             return ResponseEntity.internalServerError().build();

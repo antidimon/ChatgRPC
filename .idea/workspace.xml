@@ -8,10 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/MessageServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/MessageServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +81,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Distrib/webs/Java/ChatgRPC/Front/src/main/proto&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Distrib/webs/Java/ChatgRPC&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -224,7 +222,13 @@
       <workItem from="1741097714043" duration="77000" />
       <workItem from="1741116279502" duration="6992000" />
       <workItem from="1741191624747" duration="3410000" />
-      <workItem from="1741199305780" duration="2945000" />
+      <workItem from="1741199305780" duration="2999000" />
+      <workItem from="1741273374316" duration="457000" />
+      <workItem from="1741274977597" duration="67000" />
+      <workItem from="1741282340648" duration="1452000" />
+      <workItem from="1741288643226" duration="669000" />
+      <workItem from="1741339865720" duration="147000" />
+      <workItem from="1741848129755" duration="2813000" />
     </task>
     <servers />
   </component>

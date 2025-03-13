@@ -1,35 +1,29 @@
-// Добавление чатов в список
 const chatsList = document.getElementById('chats');
 
-// Функция для обновления списка чатов на странице
 function updateChatsList(chats) {
-    chatsList.innerHTML = ''; // Очистка списка
 
     chats.forEach((chat) => {
         const chatItem = document.createElement('LI');
         chatItem.textContent = chat.name;
         chatItem.addEventListener('click', () => {
-            // Обновление окна чата при клике на чат
-            updateChatWindow(chat.chatId);
+            updateChatWindow(chat);
         });
         chatsList.appendChild(chatItem);
     });
 }
 
-// Обновление окна чата
-async function updateChatWindow(chatId) {
+async function updateChatWindow(chat) {
     const chatWindow = document.querySelector('.chat-window');
-    chatWindow.innerHTML = ''; // Очистка окна чата
+    chatWindow.innerHTML = '';
 
-    // Добавляем заголовок чата
     const chatHeader = document.createElement('div');
     chatHeader.classList.add('chat-header');
     const chatTypeIcon = document.createElement('img');
-    chatTypeIcon.src = '/images/private-chat-icon.png';
+    chatTypeIcon.src = '/images/chat.png';
     chatTypeIcon.classList.add('chat-type-icon');
     const chatNameSpan = document.createElement('span');
     chatNameSpan.id = 'chat-name';
-    chatNameSpan.textContent = 'Название чата'; // Укажите название чата
+    chatNameSpan.textContent = chat.name;
     const chatMenu = document.createElement('div');
     chatMenu.classList.add('chat-menu');
     chatMenu.style.display = 'none';
@@ -38,12 +32,10 @@ async function updateChatWindow(chatId) {
     chatHeader.appendChild(chatMenu);
     chatWindow.appendChild(chatHeader);
 
-    // Добавляем контейнер для сообщений
     const chatMessagesContainer = document.createElement('div');
     chatMessagesContainer.classList.add('chat-messages-container');
     chatWindow.appendChild(chatMessagesContainer);
 
-    // Добавляем поле для ввода нового сообщения
     const chatInput = document.createElement('div');
     chatInput.classList.add('chat-input');
     const sendMessageForm = document.createElement('form');
@@ -65,29 +57,24 @@ async function updateChatWindow(chatId) {
     chatInput.style.display = 'flex';
 
     try {
-        // URL API для получения сообщений
-        const messagesApiUrl = `/api/chats/${chatId}/messages`;
+        const id = chat.chatId;
+        const messagesApiUrl = `/api/chats/${id}/messages`;
 
-        // Отправка GET-запроса на сервер
         const response = await fetch(messagesApiUrl, { credentials: 'include' });
         if (!response.ok) {
             throw new Error(`Ошибка HTTP! status: ${response.status}`);
         }
         const messages = await response.json();
-        console.log(messages); // Вывод полученных сообщений в консоль
 
-        // Отображение сообщений в окне чата
         messages.forEach((message) => {
             const messageElement = document.createElement('DIV');
             messageElement.classList.add('chat-message', message.messageType.toLowerCase());
 
-            // Создаем элемент для имени отправителя
             const senderElement = document.createElement('DIV');
             senderElement.classList.add('sender-username');
             senderElement.textContent = message.senderUsername;
             messageElement.appendChild(senderElement);
 
-            // Создаем элемент для текста сообщения
             const textElement = document.createElement('DIV');
             textElement.classList.add('message-text');
             textElement.textContent = message.message;
@@ -96,19 +83,16 @@ async function updateChatWindow(chatId) {
             chatMessagesContainer.appendChild(messageElement);
         });
 
-        // Показ всплывающего меню при клике на иконку чата
         chatTypeIcon.addEventListener('click', () => {
             chatMenu.style.display = 'block';
         });
 
-        // Скрытие меню при клике вне его
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.chat-menu') && !e.target.classList.contains('chat-type-icon')) {
                 chatMenu.style.display = 'none';
             }
         });
 
-        // Отправка сообщения
         const sendMessageFormElement = document.getElementById('send-message-form');
         sendMessageFormElement.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -116,8 +100,7 @@ async function updateChatWindow(chatId) {
 
             if (messageText) {
                 try {
-                    // AJAX-запрос на сервер для отправки сообщения
-                    const response = await fetch(`/api/chats/${chatId}/messages`, {
+                    const response = await fetch(`/api/chats/${id}/messages`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -129,59 +112,60 @@ async function updateChatWindow(chatId) {
                         throw new Error(`Ошибка HTTP! status: ${response.status}`);
                     }
 
-                    // Очистка поля ввода и обновление окна чата
                     newMessageInput.value = '';
-                    updateChatWindow(chatId); // Вызовите функцию обновления чата
+                    await updateChatWindow(chat);
+
                 } catch (error) {
                     console.error('Ошибка:', error);
                 }
             }
         });
 
-        // Прокрутка вниз
         chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+
     } catch (error) {
         console.error('Ошибка:', error);
     }
 }
 
-// Поиск пользователей
-document.getElementById('search-button').addEventListener('click', () => {
+document.getElementById('search-button').addEventListener('click', async () => {
     const searchInput = document.getElementById('search-input');
     const username = searchInput.value.trim();
 
     if (username) {
-        // AJAX-запрос на сервер для поиска пользователя
+        try {
+            const response = await fetch(`/api/users?regex=${username}`, {credentials: 'include'});
+            if (!response.ok){
+                throw new Error(`Ошибка HTTP! status: ${response.status}`);
+            }
+            const users = response.json();
+
+            // вывести список юзеров
+        }catch (error){
+            console.error(error);
+        }
         console.log(`Поиск пользователя: ${username}`);
-        // Обработка ответа от сервера
     }
 });
 
-// Функция для получения чатов
 async function fetchChats() {
     try {
-        // URL API для получения чатов
         const chatsApiUrl = '/api/chats';
 
-        // Отправка GET-запроса на сервер
         const response = await fetch(chatsApiUrl);
         if (!response.ok) {
             throw new Error(`Ошибка HTTP! status: ${response.status}`);
         }
         const chats = await response.json();
-        console.log(chats); // Вывод полученных чатов в консоль
-
-        // Обновление списка чатов на странице
         updateChatsList(chats);
+
     } catch (error) {
         console.error('Ошибка:', error);
     }
 }
 
-// Вызов функции для получения чатов при загрузке страницы
 fetchChats();
 
-// Дополнительный код для работы с меню профиля
 const profileIcon = document.querySelector('.profile-icon');
 const profileMenu = document.querySelector('.profile-menu');
 
@@ -202,7 +186,7 @@ profileIcon.addEventListener('mouseout', function() {
         if (!profileMenu.matches(':hover')) {
             profileMenu.style.display = 'none';
         }
-    }, 500); // Задержка в 500 мс
+    }, 500);
 });
 
 profileMenu.addEventListener('mouseout', function() {
@@ -210,5 +194,5 @@ profileMenu.addEventListener('mouseout', function() {
         if (!profileIcon.matches(':hover') && !profileMenu.matches(':hover')) {
             profileMenu.style.display = 'none';
         }
-    }, 500); // Задержка в 500 мс
+    }, 500);
 });

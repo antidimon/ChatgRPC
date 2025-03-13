@@ -1,6 +1,7 @@
 package antidimon.web.front.services.grpc;
 
 import antidimon.web.front.models.dto.chats.ChatOutputDTO;
+import antidimon.web.front.models.dto.messages.ChatMessageDTO;
 import antidimon.web.front.models.dto.messages.ChatMessageOutputDTO;
 import antidimon.web.front.models.dto.messages.FrontMessageDTO;
 import antidimon.web.front.models.enums.ChatType;
@@ -61,4 +62,15 @@ public class MessageServiceClient {
     }
 
 
+    public void createMessage(ChatMessageDTO chatMessageDTO) {
+
+        RegisterMessageRequest request = RegisterMessageRequest.newBuilder()
+                .setChatId(chatMessageDTO.getChatId())
+                .setSenderId(chatMessageDTO.getSenderId())
+                .setText(chatMessageDTO.getMessage())
+                .build();
+
+        RegisterMessageResponse response = messageStub.registerMessage(request);
+
+    }
 }

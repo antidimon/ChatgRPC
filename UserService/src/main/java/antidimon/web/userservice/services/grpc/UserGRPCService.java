@@ -1,5 +1,6 @@
 package antidimon.web.userservice.services.grpc;
 
+import antidimon.web.userservice.models.dto.ChatUserIdUsernameDTO;
 import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import antidimon.web.userservice.proto.*;
@@ -36,7 +37,6 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                 .age((short) request.getAge())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
-                .password(request.getPassword())
                 .build();
         List<String> errors = validationService.checkNewUserForErrors(inputDTO);
         if (errors.isEmpty()) {
@@ -110,6 +110,23 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
     }
 
     @Override
+    public void searchUsersByRegex(SearchUsersByRegexRequest request, StreamObserver<SearchUsersByRegexResponse> responseObserver) {
+        List<ChatUserIdUsernameDTO> users = chatUserService.getChatUsersByRegex(request.getRegex());
+        SearchUsersByRegexResponse.Builder responseBuilder = SearchUsersByRegexResponse.newBuilder();
+
+        for (ChatUserIdUsernameDTO user : users) {
+            responseBuilder.addUsers(UserIdUsername.newBuilder()
+                    .setId(user.getId())
+                    .setUsername(user.getUsername())
+                    .build());
+        }
+        SearchUsersByRegexResponse response = responseBuilder.build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+
+    }
+
+    @Override
     public void updateUser(UpdateUserRequest request,
                            StreamObserver<UpdateUserResponse> responseObserver) {
 
@@ -119,7 +136,6 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                 .age((short)request.getAge())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
-                .password(request.getPassword())
                 .build();
 
         try {

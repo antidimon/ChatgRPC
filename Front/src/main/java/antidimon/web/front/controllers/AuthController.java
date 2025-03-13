@@ -3,6 +3,7 @@ package antidimon.web.front.controllers;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
 import antidimon.web.front.services.inner.FrontUserService;
+import io.grpc.StatusException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,6 @@ public class AuthController {
         try {
             frontUserService.save(user);
         }catch (InvalidAttributesException invalidAttributesException){
-            System.out.println("gg1");
             model.addAttribute("user", user);
             var map = new HashMap<String, Boolean>();
             for (String error : invalidAttributesException.getMessage().split(",")){
@@ -73,9 +73,10 @@ public class AuthController {
             }
             model.addAttribute("errors", map);
             return "auth/register";
-        }catch (InternalError e){
-            System.out.println("gg2");
-            return "redirect:/register?error="+e.getMessage();
+        }catch (StatusException statusException){
+            return "redirect:/register?error=" + statusException.getStatus().getDescription();
+        }catch (InternalError e) {
+            return "redirect:/register?error=" + e.getMessage();
         }
 
         System.out.println("gg3");

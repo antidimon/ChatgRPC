@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/repositories/ChatMessageRepository.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/repositories/ChatParticipantRepository.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/repositories/ChatRepository.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/repositories/ChatUserRepository.java" dialect="GenericSQL" />
   </component>
 </project>

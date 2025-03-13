@@ -10,6 +10,7 @@ service UserService {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc SearchUsersByRegex(SearchUsersByRegexRequest) returns (SearchUsersByRegexResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
 }
@@ -20,7 +21,6 @@ message RegisterUserRequest {
   int32 age = 3;
   string email = 4;
   string phone_number = 5;
-  string password = 6;
 }
 
 message RegisterUserResponse {
@@ -51,6 +51,19 @@ message User {
   string email = 4;
   string phone_number = 5;
   string created_at = 6;
+}
+
+message SearchUsersByRegexRequest {
+  string regex = 1;
+}
+
+message SearchUsersByRegexResponse {
+  repeated UserIdUsername users = 1;
+}
+
+message UserIdUsername {
+  int64 id = 1;
+  string username = 2;
 }
 
 message UpdateUserRequest {

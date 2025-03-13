@@ -1,15 +1,18 @@
 package antidimon.web.front.services.inner;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
+import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
 import antidimon.web.front.repositories.MyUserRepository;
 import antidimon.web.front.security.MyUser;
 import antidimon.web.front.services.grpc.UserServiceClient;
+import io.grpc.StatusException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.directory.InvalidAttributesException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -21,7 +24,7 @@ public class FrontUserService {
     private UserServiceClient userServiceClient;
 
     @Transactional(rollbackFor = {InvalidAttributesException.class, InternalError.class})
-    public void save(MyUserRegisterDTO user) throws InvalidAttributesException, InternalError {
+    public void save(MyUserRegisterDTO user) throws InvalidAttributesException, InternalError, StatusException {
         encodePersonPassword(user);
 
         myUserRepository.save(MyUser.builder()
@@ -48,5 +51,10 @@ public class FrontUserService {
 
     public String getUsername(long senderId) {
         return myUserRepository.findById(senderId).get().getUsername();
+    }
+
+    public List<ChatUserIdUsernameDTO> searchUsers(String regex) throws StatusException {
+
+        return userServiceClient.searchUsers(regex);
     }
 }

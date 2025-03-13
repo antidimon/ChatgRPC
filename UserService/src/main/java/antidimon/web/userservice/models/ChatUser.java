@@ -35,9 +35,6 @@ public class ChatUser {
     @Column(name = "phone_number", unique = true, nullable = false)
     private String phoneNumber;
 
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 }

@@ -14,5 +14,4 @@ public class ChatUserInputDTO {
     private short age;
     private String email;
     private String phoneNumber;
-    private String password;
 }

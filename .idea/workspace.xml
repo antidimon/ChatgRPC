@@ -5,11 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11320949-62ca-49d0-8985-ea9cb99ce4e8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/20240348-590e-4a44-8a10-915bd3c2053d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/MessageServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/MessageServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/users/ChatUserInputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/users/ChatUserInputDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/UserServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/UserServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/proto/userService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/proto/userService.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/proto/userService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/proto/userService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/proto/userService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/proto/userService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/mapper/ChatUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/mapper/ChatUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/models/ChatUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/models/ChatUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/models/dto/ChatUserInputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/models/dto/ChatUserInputDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/repositories/ChatUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/repositories/ChatUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/inner/ChatUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/inner/ChatUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/proto/userService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/proto/userService.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,6 +243,7 @@
       <workItem from="1741288643226" duration="669000" />
       <workItem from="1741339865720" duration="147000" />
       <workItem from="1741848129755" duration="2813000" />
+      <workItem from="1741858652577" duration="4311000" />
     </task>
     <servers />
   </component>

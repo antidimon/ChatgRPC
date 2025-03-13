@@ -1,10 +1,10 @@
 package antidimon.web.front.services.grpc;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
-import antidimon.web.userservice.proto.RegisterUserRequest;
-import antidimon.web.userservice.proto.RegisterUserResponse;
-import antidimon.web.userservice.proto.UserServiceGrpc;
+import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
+import antidimon.web.userservice.proto.*;
 import io.grpc.Status;
+import io.grpc.StatusException;
 import io.grpc.StatusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -22,7 +22,7 @@ public class UserServiceClient {
     private UserServiceGrpc.UserServiceBlockingStub userStub;
 
 
-    public List<String> save(MyUserRegisterDTO user) throws StatusRuntimeException {
+    public List<String> save(MyUserRegisterDTO user) throws StatusException {
 
         RegisterUserRequest request = RegisterUserRequest.newBuilder()
                 .setUsername(user.getUsername())
@@ -30,7 +30,6 @@ public class UserServiceClient {
                 .setAge(user.getAge())
                 .setEmail(user.getEmail())
                 .setPhoneNumber(user.getPhoneNumber())
-                .setPassword(user.getPassword())
                 .build();
         try {
             RegisterUserResponse response = userStub.registerUser(request);
@@ -44,5 +43,17 @@ public class UserServiceClient {
             }
         }
         return Collections.emptyList();
+    }
+
+    public List<ChatUserIdUsernameDTO> searchUsers(String regex) throws StatusException {
+
+        SearchUsersByRegexRequest request = SearchUsersByRegexRequest.newBuilder()
+                .setRegex(regex)
+                .build();
+
+        SearchUsersByRegexResponse response = userStub.searchUsersByRegex(request);
+
+        return response.getUsersList().stream()
+                .map(user -> new ChatUserIdUsernameDTO(user.getId(), user.getUsername())).toList();
     }
 }

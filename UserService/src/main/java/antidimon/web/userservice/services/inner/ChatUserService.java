@@ -3,6 +3,7 @@ package antidimon.web.userservice.services.inner;
 
 import antidimon.web.userservice.mapper.ChatUserMapper;
 import antidimon.web.userservice.models.ChatUser;
+import antidimon.web.userservice.models.dto.ChatUserIdUsernameDTO;
 import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import antidimon.web.userservice.repositories.ChatUserRepository;
@@ -14,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -71,7 +73,6 @@ public class ChatUserService {
         chatUser.setAge(editUserDTO.getAge());
         chatUser.setEmail(editUserDTO.getEmail());
         chatUser.setPhoneNumber(editUserDTO.getPhoneNumber());
-        chatUser.setPassword(editUserDTO.getPassword());
 
         this.saveUser(chatUser);
     }
@@ -90,5 +91,17 @@ public class ChatUserService {
     public long getUserId(String username) throws NoSuchElementException{
         ChatUser chatUser = this.getUserEntity(username);
         return chatUser.getId();
+    }
+
+    public List<ChatUserIdUsernameDTO> getChatUsersByRegex(String regex) {
+
+        List<ChatUser> users;
+        if (regex == null){
+            users = chatUserRepository.findAll();
+        }else {
+            users = chatUserRepository.findAllByUsernameRegex(regex);
+        }
+
+        return users.stream().map(chatUserMapper::toIdUsernameDTO).toList();
     }
 }

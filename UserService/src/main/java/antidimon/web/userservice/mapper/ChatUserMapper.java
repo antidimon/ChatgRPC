@@ -2,6 +2,7 @@ package antidimon.web.userservice.mapper;
 
 
 import antidimon.web.userservice.models.ChatUser;
+import antidimon.web.userservice.models.dto.ChatUserIdUsernameDTO;
 import antidimon.web.userservice.models.dto.ChatUserInputDTO;
 import antidimon.web.userservice.models.dto.ChatUserOutputDTO;
 import org.modelmapper.ModelMapper;
@@ -23,7 +24,10 @@ public class ChatUserMapper  {
                 .age(chatUserInputDTO.getAge())
                 .email(chatUserInputDTO.getEmail())
                 .phoneNumber(chatUserInputDTO.getPhoneNumber())
-                .password(chatUserInputDTO.getPassword())
                 .build();
+    }
+
+    public ChatUserIdUsernameDTO toIdUsernameDTO(ChatUser chatUser){
+        return modelMapper.map(chatUser, ChatUserIdUsernameDTO.class);
     }
 }

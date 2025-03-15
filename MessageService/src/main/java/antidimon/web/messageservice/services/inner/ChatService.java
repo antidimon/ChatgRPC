@@ -187,6 +187,8 @@ public class ChatService {
     }
 
 
-
+    public ChatOutputDTO getChatDTO(long chatId) throws NoSuchElementException {
+        return chatMapper.toOutputDTO(this.getChat(chatId));
+    }
 }
 

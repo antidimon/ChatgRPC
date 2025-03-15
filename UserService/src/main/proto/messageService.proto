@@ -193,7 +193,6 @@ message ChatInfo {
   int64 user2_id = 6;
 }
 
-
 message DeleteUserChatsRequest {
   int64 user_id = 1;
 }

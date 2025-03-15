@@ -1,16 +1,18 @@
 package antidimon.web.front.services.grpc;
 
-import antidimon.web.front.models.dto.chats.ChatOutputDTO;
+import antidimon.web.front.models.dto.chats.*;
 import antidimon.web.front.models.dto.messages.ChatMessageDTO;
 import antidimon.web.front.models.dto.messages.ChatMessageOutputDTO;
 import antidimon.web.front.models.dto.messages.FrontMessageDTO;
 import antidimon.web.front.models.enums.ChatType;
 import antidimon.web.messageservice.proto.*;
+import io.grpc.StatusException;
 import io.grpc.StatusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class MessageServiceClient {
 
 
 
-    public List<ChatOutputDTO> getUserChats(long userId) throws StatusRuntimeException {
+    public List<ChatOutputDTO> getUserChats(long userId) throws StatusException {
 
         GetUserChatsRequest request = GetUserChatsRequest.newBuilder()
                 .setUserId(userId)
@@ -45,7 +47,32 @@ public class MessageServiceClient {
                 .toList();
     }
 
-    public List<ChatMessageOutputDTO> getChatMessages(long chatId) throws StatusRuntimeException {
+    public PrivateChatOutputDTO getPrivateChat(long chatId) throws StatusException {
+        GetPrivateChatRequest request = GetPrivateChatRequest.newBuilder().setChatId(chatId).build();
+        GetPrivateChatResponse response = chatsStub.getPrivateChat(request);
+        return PrivateChatOutputDTO.builder()
+                .chatId(response.getId())
+                .user1Id(response.getUser1Id())
+                .user2Id(response.getUser2Id())
+                .createdAt(LocalDateTime.parse(response.getCreatedAt()))
+                .build();
+    }
+
+    public GroupChatOutputDTO getGroupChat(long chatId) throws StatusException {
+        GetGroupChatRequest request = GetGroupChatRequest.newBuilder().setChatId(chatId).build();
+        GetGroupChatResponse response = chatsStub.getGroupChat(request);
+        return GroupChatOutputDTO.builder()
+                .chatId(response.getChatId())
+                .name(response.getName())
+                .description(response.getDescription())
+                .ownerId(response.getOwnerId())
+                .membersIds(response.getParticipantsList())
+                .createdAt(LocalDateTime.parse(response.getCreatedAt()))
+                .build();
+    }
+
+
+    public List<ChatMessageOutputDTO> getChatMessages(long chatId) throws StatusException {
 
         GetMessagesByChatRequest request = GetMessagesByChatRequest.newBuilder()
                 .setChatId(chatId)

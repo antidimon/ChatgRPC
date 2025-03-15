@@ -1,5 +1,6 @@
 package antidimon.web.front.models.dto.chats;
 
+import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,13 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@ToString
-public class GroupChatOutputDTO implements ChatgRPCDTO{
+public class GroupChatWithIdUsernamesDTO implements ChatToFrontDTO {
 
     private long chatId;
     private String name;
     private String description;
     private long ownerId;
-    private List<Long> membersIds;
+    private List<ChatUserIdUsernameDTO> users;
     private LocalDateTime createdAt;
+
 }

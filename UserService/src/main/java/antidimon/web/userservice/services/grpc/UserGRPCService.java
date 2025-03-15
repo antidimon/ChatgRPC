@@ -123,7 +123,6 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
         SearchUsersByRegexResponse response = responseBuilder.build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
-
     }
 
     @Override

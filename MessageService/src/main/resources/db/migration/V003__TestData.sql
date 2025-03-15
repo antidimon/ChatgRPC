@@ -8,12 +8,18 @@ INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VA
 INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (7, null, null, 'PRIVATE', null, 4, 3);
 
 
+INSERT INTO chat_participants (chat_id, user_id) VALUES (1, 1);
 INSERT INTO chat_participants (chat_id, user_id) VALUES (1, 3);
 INSERT INTO chat_participants (chat_id, user_id) VALUES (1, 4);
+
+INSERT INTO chat_participants (chat_id, user_id) VALUES (2, 4);
+INSERT INTO chat_participants (chat_id, user_id) VALUES (2, 2);
+
 INSERT INTO chat_participants (chat_id, user_id) VALUES (3, 1);
 INSERT INTO chat_participants (chat_id, user_id) VALUES (3, 2);
 INSERT INTO chat_participants (chat_id, user_id) VALUES (3, 3);
-INSERT INTO chat_participants (chat_id, user_id) VALUES (2, 4);
+INSERT INTO chat_participants (chat_id, user_id) VALUES (3, 4);
+
 
 
 INSERT INTO messages (chat_id, sender_id, text) VALUES (4, 1, 'Hello User4');

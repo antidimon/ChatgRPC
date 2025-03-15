@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11320949-62ca-49d0-8985-ea9cb99ce4e8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/37a66c0a-aedf-4830-97fe-bd91dfc60fd7/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/chats/GroupChatOutputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/chats/GroupChatOutputDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/chats/PrivateChatOutputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/chats/PrivateChatOutputDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/MessageServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/grpc/MessageServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/inner/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/inner/ChatService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/antidimon/web/userservice/services/grpc/UserGRPCService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/proto/messageService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/proto/messageService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/db/migration/V002__TestData.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/db/migration/V002__TestData.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/grpc/ChatGRPCService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/java/antidimon/web/messageservice/services/grpc/ChatGRPCService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageService/src/main/resources/db/migration/V003__TestData.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MessageService/src/main/resources/db/migration/V003__TestData.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/db/migration/V003__TestData.sql" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/db/migration/V003__TestData.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,6 +235,7 @@
       <workItem from="1741858652577" duration="4311000" />
       <workItem from="1741866997726" duration="187000" />
       <workItem from="1742026877454" duration="7332000" />
+      <workItem from="1742041228155" duration="1209000" />
     </task>
     <servers />
   </component>

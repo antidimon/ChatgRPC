@@ -45,10 +45,10 @@
               <node kind="schema" qname="@" />
             </node>
             <node kind="database">
-              <name qname="msgDB" />
               <name qname="usersDB" />
               <name qname="notificationDB" />
               <name qname="securDB" />
+              <name qname="msgDB" />
             </node>
           </node>
         </introspection-scope>

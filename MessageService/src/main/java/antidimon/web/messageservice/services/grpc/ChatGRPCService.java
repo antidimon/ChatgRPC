@@ -251,6 +251,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chats")));
         }catch (Exception e){
+            e.printStackTrace();
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }

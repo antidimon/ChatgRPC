@@ -2,6 +2,7 @@ package antidimon.web.front.services.grpc;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
 import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
+import antidimon.web.front.models.dto.users.ChatUserInputDTO;
 import antidimon.web.front.models.dto.users.ChatUserOutputDTO;
 import antidimon.web.userservice.proto.*;
 import io.grpc.Status;
@@ -74,5 +75,30 @@ public class UserServiceClient {
                 .createdAt(LocalDateTime.parse(user.getCreatedAt()))
                 .build();
 
+    }
+
+    public void editUser(long userId, ChatUserInputDTO chatUserInputDTO) {
+
+        UpdateUserRequest request = UpdateUserRequest.newBuilder()
+                .setId(userId)
+                .setUsername(chatUserInputDTO.getUsername())
+                .setName(chatUserInputDTO.getName())
+                .setAge(chatUserInputDTO.getAge())
+                .setEmail(chatUserInputDTO.getEmail())
+                .setPhoneNumber(chatUserInputDTO.getPhoneNumber())
+                .build();
+
+        UpdateUserResponse response = userStub.updateUser(request);
+
+        if (!response.getSuccess()) {
+            log.error("Error updating user. {}", response.getMessage());
+        }
+    }
+
+    public void deleteUser(String username) throws StatusException {
+
+        DeleteUserRequest request = DeleteUserRequest.newBuilder().setUsername(username).build();
+        DeleteUserResponse response = userStub.deleteUser(request);
+        if (!response.getSuccess()) log.error("Error deleting user. {}", response.getMessage());
     }
 }

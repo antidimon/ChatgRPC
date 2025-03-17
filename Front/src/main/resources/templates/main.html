@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мессенджер</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
 <div class="main-container">
     <div class="top-bar">
@@ -36,29 +40,24 @@
             </ul>
         </div>
         <div class="chat-window">
-            <div class="chat-header" style="display: none;">
+            <div class="chat-header">
                 <img src="/images/chat.png" alt="Приватный чат" class="chat-type-icon">
                 <span id="chat-name">Название чата</span>
                 <div class="chat-menu" style="display: none;">
                     <!-- Пока пустое -->
                 </div>
             </div>
-            <div class="chat-messages-container" style="display: none;">
+            <div class="chat-messages-container">
                 <!-- Сообщения будут добавлены динамически -->
             </div>
             <div class="user-profile-container" style="display: none;">
                 <!-- Здесь будет отображаться профиль пользователя -->
             </div>
-            <div class="chat-input" style="display: none;">
-                <form id="send-message-form">
-                    <input type="text" id="new-message" placeholder="Введите сообщение...">
-                    <button id="send-button">Отправить</button>
-                </form>
-            </div>
         </div>
     </div>
 </div>
 
-<script type="module" th:src="@{/js/main.js}"></script>
+<script type="module" src="/js/app.js" defer></script>
 </body>
+
 </html>

@@ -2,6 +2,7 @@ package antidimon.web.front.services.inner;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
 import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
+import antidimon.web.front.models.dto.users.ChatUserInputDTO;
 import antidimon.web.front.models.dto.users.ChatUserOutputDTO;
 import antidimon.web.front.repositories.MyUserRepository;
 import antidimon.web.front.security.MyUser;
@@ -63,5 +64,21 @@ public class FrontUserService {
         String username = getUsername(userId);
         return userServiceClient.getUser(username);
 
+    }
+
+    public void editUser(String username, ChatUserInputDTO chatUserInputDTO) throws StatusException{
+        long userId = getUserId(username);
+        userServiceClient.editUser(userId, chatUserInputDTO);
+    }
+
+    @Transactional(rollbackFor = {InternalError.class})
+    public void deleteUser(String username) {
+
+        myUserRepository.deleteByUsername(username);
+        try {
+            userServiceClient.deleteUser(username);
+        }catch (StatusException e){
+            throw new InternalError();
+        }
     }
 }

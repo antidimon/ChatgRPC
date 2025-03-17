@@ -67,12 +67,12 @@ message UserIdUsername {
 }
 
 message UpdateUserRequest {
-  string username = 1;
-  string name = 2;
-  int32 age = 3;
-  string email = 4;
-  string phone_number = 5;
-  string password = 6;
+  int64 id = 1;
+  string username = 2;
+  string name = 3;
+  int32 age = 4;
+  string email = 5;
+  string phone_number = 6;
 }
 
 message UpdateUserResponse {

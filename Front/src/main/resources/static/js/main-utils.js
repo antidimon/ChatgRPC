@@ -20,3 +20,14 @@ export function positionElement(element, target) {
     element.style.left = `${rect.right + window.scrollX}px`;
     element.style.top = `${rect.top + window.scrollY}px`;
 }
+
+export function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+}

@@ -2,6 +2,7 @@ package antidimon.web.front.controllers;
 
 
 import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
+import antidimon.web.front.models.dto.users.ChatUserInputDTO;
 import antidimon.web.front.models.dto.users.ChatUserOutputDTO;
 import antidimon.web.front.security.JwtProvider;
 import antidimon.web.front.services.inner.FrontUserService;
@@ -49,6 +50,31 @@ public class UserController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok(user);
-
     }
+
+    @PatchMapping("/edit")
+    public ResponseEntity<?> editUser(HttpServletRequest request, @RequestBody ChatUserInputDTO chatUserInputDTO){
+
+        String username = jwtProvider.getUsername(request.getCookies());
+        try {
+            frontUserService.editUser(username, chatUserInputDTO);
+        }catch(Exception e) {
+            log.warn("Couldn't update user " + username + ". " + e);
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUser(HttpServletRequest request){
+        String username = jwtProvider.getUsername(request.getCookies());
+        try {
+            frontUserService.deleteUser(username);
+        }catch (Exception e){
+            log.warn("Couldn't delete user " + username + ". " + e);
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }

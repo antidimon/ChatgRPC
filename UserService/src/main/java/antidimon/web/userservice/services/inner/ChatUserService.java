@@ -35,6 +35,12 @@ public class ChatUserService {
         throw new NoSuchElementException("User not found");
     }
 
+    private ChatUser getUserEntity(long id) throws NoSuchElementException {
+        Optional<ChatUser> chatUser = chatUserRepository.findById(id);
+        if(chatUser.isPresent()) return chatUser.get();
+        throw new NoSuchElementException("User not found");
+    }
+
     public ChatUserOutputDTO getChatUserDTO(String username) throws NoSuchElementException {
         Optional<ChatUser> user = chatUserRepository.findByUsername(username);
         if(user.isPresent()){
@@ -65,14 +71,14 @@ public class ChatUserService {
     }
 
     @Transactional
-    public void editChatUser(ChatUserInputDTO editUserDTO) throws NoSuchElementException, DataIntegrityViolationException {
-        ChatUser chatUser = this.getUserEntity(editUserDTO.getUsername());
+    public void editChatUser(long id, ChatUserInputDTO editUserDTO) throws NoSuchElementException, DataIntegrityViolationException {
+        ChatUser chatUser = this.getUserEntity(id);
 
-        chatUser.setUsername(editUserDTO.getUsername());
-        chatUser.setName(editUserDTO.getName());
-        chatUser.setAge(editUserDTO.getAge());
-        chatUser.setEmail(editUserDTO.getEmail());
-        chatUser.setPhoneNumber(editUserDTO.getPhoneNumber());
+        if (!editUserDTO.getUsername().isBlank()) chatUser.setUsername(editUserDTO.getUsername());
+        if (!editUserDTO.getName().isBlank()) chatUser.setName(editUserDTO.getName());
+        if (editUserDTO.getAge() != null) chatUser.setAge(editUserDTO.getAge());
+        if (!editUserDTO.getEmail().isBlank()) chatUser.setEmail(editUserDTO.getEmail());
+        if (!editUserDTO.getPhoneNumber().isBlank()) chatUser.setPhoneNumber(editUserDTO.getPhoneNumber());
 
         this.saveUser(chatUser);
     }

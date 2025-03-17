@@ -130,4 +130,16 @@ public class MessageServiceClient {
         }
         else return response.getChatId();
     }
+
+    public void deletePrivateChat(long chatId) {
+        DeletePrivateChatResponse response = chatsStub.deletePrivateChat(
+                DeletePrivateChatRequest.newBuilder().setChatId(chatId).build());
+        if (!response.getSuccess()) log.error("Failed to delete private chat. {}", response.getMessage());
+    }
+
+    public void deleteGroupChat(long chatId) {
+        DeleteGroupChatResponse response = chatsStub.deleteGroupChat(
+                DeleteGroupChatRequest.newBuilder().setChatId(chatId).build());
+        if (!response.getSuccess()) log.error("Failed to delete group chat. {}", response.getMessage());
+    }
 }

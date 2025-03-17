@@ -138,7 +138,7 @@ public class UserGRPCService extends UserServiceGrpc.UserServiceImplBase {
                 .build();
 
         try {
-            chatUserService.editChatUser(editUserDTO);
+            chatUserService.editChatUser(request.getId(), editUserDTO);
             UpdateUserResponse response = UpdateUserResponse.newBuilder()
                     .setSuccess(true)
                     .setMessage("User updated successfully")

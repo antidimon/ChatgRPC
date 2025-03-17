@@ -34,7 +34,7 @@ public class FrontChatsService {
 
     public ChatToFrontDTO getChat(long chatId, boolean isPrivate) throws StatusException {
         if (isPrivate){
-            PrivateChatOutputDTO chatDTO = messageServiceClient.getPrivateChat(chatId);
+            PrivateChatOutputDTO chatDTO = this.getPrivateChat(chatId);
             return PrivateChatWithIdUsernameDTO.builder()
                     .chatId(chatDTO.getChatId())
                     .user1(new ChatUserIdUsernameDTO(chatDTO.getUser1Id(), frontUserService.getUsername(chatDTO.getUser1Id())))
@@ -42,7 +42,7 @@ public class FrontChatsService {
                     .createdAt(chatDTO.getCreatedAt())
                     .build();
         }else {
-            GroupChatOutputDTO chatDTO = messageServiceClient.getGroupChat(chatId);
+            GroupChatOutputDTO chatDTO = this.getGroupChat(chatId);
             return GroupChatWithIdUsernamesDTO.builder()
                     .chatId(chatDTO.getChatId())
                     .name(chatDTO.getName())
@@ -54,6 +54,14 @@ public class FrontChatsService {
         }
     }
 
+    private PrivateChatOutputDTO getPrivateChat(long chatId){
+        return messageServiceClient.getPrivateChat(chatId);
+    }
+
+    private GroupChatOutputDTO getGroupChat(long chatId){
+        return messageServiceClient.getGroupChat(chatId);
+    }
+
     public long createPrivateChat(String creatorUsername, String username) throws StatusException, ServerException {
         return messageServiceClient.createPrivateChat(frontUserService.getUserId(creatorUsername),
                 frontUserService.getUserId(username));
@@ -61,5 +69,25 @@ public class FrontChatsService {
 
     public long createGroupChat(String creatorUsername, GroupChatInputDTO groupChatInputDTO) throws StatusException, ServerException {
         return messageServiceClient.createGroupChat(frontUserService.getUserId(creatorUsername), groupChatInputDTO);
+    }
+
+    public void deleteChat(String username, long chatId, boolean isPrivate) throws StatusException, SecurityException {
+        long senderId = frontUserService.getUserId(username);
+        if (isPrivate){
+            PrivateChatOutputDTO chat = this.getPrivateChat(chatId);
+            if (senderId == chat.getUser1Id() || senderId == chat.getUser2Id()){
+                messageServiceClient.deletePrivateChat(chatId);
+            }else {
+                throw new SecurityException("Not your chat");
+            }
+        }else {
+            GroupChatOutputDTO chat = this.getGroupChat(chatId);
+            if (senderId == chat.getOwnerId()){
+                messageServiceClient.deleteGroupChat(chatId);
+            }else {
+                throw new SecurityException("You are not owner");
+            }
+        }
+
     }
 }

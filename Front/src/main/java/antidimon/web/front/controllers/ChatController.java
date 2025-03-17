@@ -64,7 +64,9 @@ public class ChatController {
     }
 
     @PostMapping("/private")
-    public ResponseEntity<?> createPrivateChat(HttpServletRequest request, @RequestParam("user2") String username) {
+    public ResponseEntity<?> createPrivateChat(HttpServletRequest request, @RequestParam(value = "user2") String username) {
+
+        log.info("Creating chat");
 
         String creatorUsername = jwtProvider.getUsername(request.getCookies());
         long chatId;
@@ -95,5 +97,22 @@ public class ChatController {
         response.setId(chatId);
 
         return ResponseEntity.ok(response);
+    }
+
+
+    @DeleteMapping("/{chatId}")
+    public ResponseEntity<?> deleteChat(HttpServletRequest request, @PathVariable("chatId") long chatId,
+                                        @RequestParam(value = "isPrivate") boolean isPrivate) {
+
+        String username = jwtProvider.getUsername(request.getCookies());
+        try {
+            frontChatsService.deleteChat(username, chatId, isPrivate);
+        }catch (SecurityException securityException){
+            return ResponseEntity.badRequest().body(securityException.getMessage());
+        }catch (Exception e){
+            log.warn("Got status exception while deleting chat", e);
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

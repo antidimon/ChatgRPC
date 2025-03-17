@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
+import java.rmi.ServerException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class MessageServiceClient {
 
 
 
-    public List<ChatOutputDTO> getUserChats(long userId) throws StatusException {
+    public List<ChatOutputDTO> getUserChats(long userId) {
 
         GetUserChatsRequest request = GetUserChatsRequest.newBuilder()
                 .setUserId(userId)
@@ -47,7 +48,7 @@ public class MessageServiceClient {
                 .toList();
     }
 
-    public PrivateChatOutputDTO getPrivateChat(long chatId) throws StatusException {
+    public PrivateChatOutputDTO getPrivateChat(long chatId) {
         GetPrivateChatRequest request = GetPrivateChatRequest.newBuilder().setChatId(chatId).build();
         GetPrivateChatResponse response = chatsStub.getPrivateChat(request);
         return PrivateChatOutputDTO.builder()
@@ -58,7 +59,7 @@ public class MessageServiceClient {
                 .build();
     }
 
-    public GroupChatOutputDTO getGroupChat(long chatId) throws StatusException {
+    public GroupChatOutputDTO getGroupChat(long chatId) {
         GetGroupChatRequest request = GetGroupChatRequest.newBuilder().setChatId(chatId).build();
         GetGroupChatResponse response = chatsStub.getGroupChat(request);
         return GroupChatOutputDTO.builder()
@@ -72,7 +73,7 @@ public class MessageServiceClient {
     }
 
 
-    public List<ChatMessageOutputDTO> getChatMessages(long chatId) throws StatusException {
+    public List<ChatMessageOutputDTO> getChatMessages(long chatId) {
 
         GetMessagesByChatRequest request = GetMessagesByChatRequest.newBuilder()
                 .setChatId(chatId)
@@ -98,6 +99,35 @@ public class MessageServiceClient {
                 .build();
 
         RegisterMessageResponse response = messageStub.registerMessage(request);
+        if (!response.getSuccess()) log.error("Failed to register message. {}", response.getMessage());
 
+    }
+
+    public long createPrivateChat(long creatorId, long user2Id) throws ServerException {
+
+        CreatePrivateChatRequest request = CreatePrivateChatRequest.newBuilder().setCreatorId(creatorId).setUser2Id(user2Id).build();
+        CreatePrivateChatResponse response = chatsStub.createPrivateChat(request);
+        if (!response.getSuccess()){
+            log.error("Failed to create private chat. {}", response.getMessage());
+            throw new ServerException("Failed to create private chat. " + response.getMessage());
+        }else {
+            return response.getChatId();
+        }
+
+    }
+
+    public long createGroupChat(long userId, GroupChatInputDTO groupChatInputDTO) throws ServerException {
+
+        CreateGroupChatRequest request = CreateGroupChatRequest.newBuilder()
+                .setOwnerId(userId)
+                .setName(groupChatInputDTO.getName())
+                .setDescription(groupChatInputDTO.getDescription())
+                .build();
+        CreateGroupChatResponse response = chatsStub.createGroupChat(request);
+        if (!response.getSuccess()) {
+            log.error("Failed to create group chat. {}", response.getMessage());
+            throw new ServerException("Failed to create private chat. " + response.getMessage());
+        }
+        else return response.getChatId();
     }
 }

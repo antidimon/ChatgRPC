@@ -193,7 +193,7 @@ body {
     margin-bottom: 10px;
 }
 
-.chat-messages-container {
+.chat-messages-container, .user-profile-container {
     flex-grow: 1;
     padding: 20px;
     background-color: #b4effb;

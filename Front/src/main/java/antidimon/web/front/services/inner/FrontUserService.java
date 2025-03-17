@@ -2,6 +2,7 @@ package antidimon.web.front.services.inner;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
 import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
+import antidimon.web.front.models.dto.users.ChatUserOutputDTO;
 import antidimon.web.front.repositories.MyUserRepository;
 import antidimon.web.front.security.MyUser;
 import antidimon.web.front.services.grpc.UserServiceClient;
@@ -53,8 +54,14 @@ public class FrontUserService {
         return myUserRepository.findById(senderId).get().getUsername();
     }
 
-    public List<ChatUserIdUsernameDTO> searchUsers(String regex) throws StatusException {
+    public List<ChatUserIdUsernameDTO> searchUsers(String regex, String senderUsername) throws StatusException {
 
-        return userServiceClient.searchUsers(regex);
+        return userServiceClient.searchUsers(regex).stream().filter(user -> !user.getUsername().equals(senderUsername)).toList();
+    }
+
+    public ChatUserOutputDTO getUser(long userId) throws StatusException {
+        String username = getUsername(userId);
+        return userServiceClient.getUser(username);
+
     }
 }

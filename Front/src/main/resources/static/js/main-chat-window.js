@@ -1,4 +1,15 @@
 import { createMessageElement } from './main-utils.js';
+import { getCurrentProfileUsername } from './main-user-menu.js';
+
+let currentChatId = null;
+
+export function getCurrentChatId() {
+    return currentChatId;
+}
+
+export function setCurrentChatId(chatId) {
+    currentChatId = chatId;
+}
 
 async function createChatMenu(chat, chatMenuElement) {
     chatMenuElement.innerHTML = ''; // Очищаем меню
@@ -13,18 +24,18 @@ async function createChatMenu(chat, chatMenuElement) {
         let chatInfo = '';
         if (chat.chatType === 'GROUP') {
             chatInfo = `
-        <p>Тип: Групповой</p>
-        <p>Название: ${chatData.name}</p>
-        <p>Описание: ${chatData.description}</p>
-        <p>Владелец: ${chatData.users.find(u => u.id === chatData.ownerId)?.username || 'Неизвестен'}</p>
-        <p>Участники: ${chatData.users.map(u => u.username).join(', ') || 'Нет'}</p>
-    `;
+                <p>Тип: Групповой</p>
+                <p>Название: ${chatData.name}</p>
+                <p>Описание: ${chatData.description}</p>
+                <p>Владелец: ${chatData.users.find(u => u.id === chatData.ownerId)?.username || 'Неизвестен'}</p>
+                <p>Участники: ${chatData.users.map(u => u.username).join(', ') || 'Нет'}</p>
+            `;
         } else if (chat.chatType === 'PRIVATE') {
             chatInfo = `
-        <p>Тип: Личный</p>
-        <p>Пользователь 1: ${chatData.user1?.username || 'Неизвестен'}</p>
-        <p>Пользователь 2: ${chatData.user2?.username || 'Неизвестен'}</p>
-    `;
+                <p>Тип: Личный</p>
+                <p>Пользователь 1: ${chatData.user1?.username || 'Неизвестен'}</p>
+                <p>Пользователь 2: ${chatData.user2?.username || 'Неизвестен'}</p>
+            `;
         } else {
             chatInfo = `<p>Неизвестный тип чата</p>`;
         }
@@ -87,6 +98,8 @@ export async function updateChatWindow(chat) {
 
     chatWindow.appendChild(chatInputContainer);
 
+    currentChatId = chat.chatId;
+
     try {
         const response = await fetch(`/api/chats/${chat.chatId}/messages`, { credentials: 'include' });
         if (!response.ok) throw new Error(`Ошибка HTTP! status: ${response.status}`);
@@ -96,28 +109,14 @@ export async function updateChatWindow(chat) {
             const messageElement = createMessageElement(message);
             chatMessagesContainer.appendChild(messageElement);
         });
-
+        console.log('Форма существует:', document.querySelector('#send-message-form'));
         sendMessageForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const messageText = newMessageInput.value.trim();
 
             if (messageText) {
-                try {
-                    const response = await fetch(`/api/chats/${chat.chatId}/messages`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ message: messageText }),
-                    });
-
-                    if (!response.ok) throw new Error(`Ошибка HTTP! status: ${response.status}`);
-
-                    newMessageInput.value = '';
-                    await updateChatWindow(chat); // Обновляем окно чата
-                } catch (error) {
-                    console.error(error);
-                }
+                // Отправка сообщения
+                await sendMessage(messageText);
             }
         });
 
@@ -143,5 +142,62 @@ export async function updateChatWindow(chat) {
 
     } catch (error) {
         console.error(error);
+    }
+}
+
+async function sendMessage(messageText) {
+    const newMessageInput = document.querySelector('#new-message');
+    const currentProfileUsername = getCurrentProfileUsername();
+
+    console.log(getCurrentChatId())
+    console.log(getCurrentProfileUsername())
+
+    if (currentChatId) {
+        try {
+            const response = await fetch(`/api/chats/${currentChatId}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: messageText }),
+            });
+
+            if (!response.ok) throw new Error(`Ошибка HTTP! status: ${response.status}`);
+
+            newMessageInput.value = '';
+            await updateChatWindow({ chatId: currentChatId, name: document.querySelector('#chat-name').textContent });
+        } catch (error) {
+            console.error(error);
+        }
+    } else if (currentProfileUsername) {
+        try {
+            const chatResponse = await fetch(`/api/chats/private?user2=${currentProfileUsername}`, {
+                method: 'POST',
+            });
+
+            if (!chatResponse.ok) {
+                throw new Error(`Ошибка создания чата: ${chatResponse.status}`);
+            }
+
+            const chatData = await chatResponse.json();
+            currentChatId = chatData.id;
+
+            const messageResponse = await fetch(`/api/chats/${currentChatId}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: messageText }),
+            });
+
+            if (!messageResponse.ok) {
+                throw new Error(`Ошибка отправки сообщения: ${messageResponse.status}`);
+            }
+
+            newMessageInput.value = '';
+            await updateChatWindow({ chatId: currentChatId, name: currentProfileUsername });
+        } catch (error) {
+            console.error('Произошла ошибка:', error);
+        }
     }
 }

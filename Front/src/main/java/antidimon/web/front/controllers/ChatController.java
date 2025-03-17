@@ -1,8 +1,10 @@
 package antidimon.web.front.controllers;
 
 
+import antidimon.web.front.models.dto.chats.ChatIdResponse;
 import antidimon.web.front.models.dto.chats.ChatOutputDTO;
 import antidimon.web.front.models.dto.chats.ChatToFrontDTO;
+import antidimon.web.front.models.dto.chats.GroupChatInputDTO;
 import antidimon.web.front.models.dto.messages.ChatMessageOutputDTO;
 import antidimon.web.front.models.dto.messages.FrontMessageDTO;
 import antidimon.web.front.security.JwtProvider;
@@ -59,5 +61,39 @@ public class ChatController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok(chat);
+    }
+
+    @PostMapping("/private")
+    public ResponseEntity<?> createPrivateChat(HttpServletRequest request, @RequestParam("user2") String username) {
+
+        String creatorUsername = jwtProvider.getUsername(request.getCookies());
+        long chatId;
+        try {
+            chatId = frontChatsService.createPrivateChat(creatorUsername, username);
+        } catch (Exception e) {
+            log.warn("Got status exception while creating private chat", e);
+            return ResponseEntity.internalServerError().build();
+        }
+        ChatIdResponse response = new ChatIdResponse();
+        response.setId(chatId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/group")
+    public ResponseEntity<?> createGroupChat(HttpServletRequest request, @RequestBody GroupChatInputDTO groupChatInputDTO) {
+
+        String creatorUsername = jwtProvider.getUsername(request.getCookies());
+        long chatId;
+        try {
+            chatId = frontChatsService.createGroupChat(creatorUsername, groupChatInputDTO);
+        }catch (Exception e){
+            log.warn("Got status exception while creating group chat", e);
+            return ResponseEntity.internalServerError().build();
+        }
+        ChatIdResponse response = new ChatIdResponse();
+        response.setId(chatId);
+
+        return ResponseEntity.ok(response);
     }
 }

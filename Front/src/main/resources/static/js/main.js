@@ -1,5 +1,6 @@
 import { updateChatWindow } from './main-chat-window.js';
 import { updateUsersList } from './main-user-menu.js';
+import { getCurrentChatId, setCurrentChatId } from './main-chat-window.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const chatsList = document.getElementById('chats');
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchButton.addEventListener('click', () => {
         const username = searchInput.value.trim();
-
+        setCurrentChatId(null);
         if (username) {
             fetchUsers(username);
         } else {
@@ -64,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     searchInput.addEventListener('input', () => {
+        setCurrentChatId(null);
         if (searchInput.value.trim() === '') {
             usersList.style.display = 'none';
             chatsList.style.display = 'block';

@@ -1,11 +1,11 @@
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (1, 'User1GroupChat', 'Test user1 chat', 'GROUP', 1, null, null);
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (2, 'User2GroupChat', 'Test user2 chat', 'GROUP', 2, null, null);
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (3, 'User4GroupChat', 'Test user4 chat', 'GROUP', 4, null, null);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES ('User1GroupChat', 'Test user1 chat', 'GROUP', 1, null, null);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES ('User2GroupChat', 'Test user2 chat', 'GROUP', 2, null, null);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES ('User4GroupChat', 'Test user4 chat', 'GROUP', 4, null, null);
 
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (4, null, null, 'PRIVATE', null, 1, 4);
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (5, null, null, 'PRIVATE', null, 1, 3);
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (6, null, null, 'PRIVATE', null, 4, 2);
-INSERT INTO chats (id, name, description, type, owner_id, user1_id, user2_id) VALUES (7, null, null, 'PRIVATE', null, 4, 3);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES (null, null, 'PRIVATE', null, 1, 4);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES (null, null, 'PRIVATE', null, 1, 3);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES (null, null, 'PRIVATE', null, 4, 2);
+INSERT INTO chats (name, description, type, owner_id, user1_id, user2_id) VALUES (null, null, 'PRIVATE', null, 4, 3);
 
 
 INSERT INTO chat_participants (chat_id, user_id) VALUES (1, 1);

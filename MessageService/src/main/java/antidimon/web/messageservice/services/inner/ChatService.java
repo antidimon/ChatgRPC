@@ -50,6 +50,7 @@ public class ChatService {
     @Transactional
     public long createPrivateChat(long creatorId, long user2Id) throws NoSuchElementException {
         this.checkIfUserExist(List.of(creatorId, user2Id));
+        log.info("Private chat for " + creatorId + " " + user2Id);
         Chat chat = Chat.builder()
                 .type(ChatType.PRIVATE)
                 .user1Id(creatorId)

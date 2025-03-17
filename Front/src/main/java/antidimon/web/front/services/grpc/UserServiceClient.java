@@ -2,6 +2,7 @@ package antidimon.web.front.services.grpc;
 
 import antidimon.web.front.models.dto.MyUserRegisterDTO;
 import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
+import antidimon.web.front.models.dto.users.ChatUserOutputDTO;
 import antidimon.web.userservice.proto.*;
 import io.grpc.Status;
 import io.grpc.StatusException;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -55,5 +57,22 @@ public class UserServiceClient {
 
         return response.getUsersList().stream()
                 .map(user -> new ChatUserIdUsernameDTO(user.getId(), user.getUsername())).toList();
+    }
+
+    public ChatUserOutputDTO getUser(String username) throws StatusException {
+
+        GetUserRequest request = GetUserRequest.newBuilder().setUsername(username).build();
+        GetUserResponse response = userStub.getUser(request);
+        User user = response.getUser();
+
+        return ChatUserOutputDTO.builder()
+                .username(username)
+                .name(user.getName())
+                .age((short)user.getAge())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .createdAt(LocalDateTime.parse(user.getCreatedAt()))
+                .build();
+
     }
 }

@@ -11,7 +11,6 @@ import lombok.*;
 @ToString
 public class GroupChatInputDTO {
 
-    private long ownerId;
     private String name;
     private String description;
 }

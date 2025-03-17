@@ -9,6 +9,7 @@ import io.grpc.StatusRuntimeException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.rmi.ServerException;
 import java.util.List;
 
 @Service
@@ -51,5 +52,14 @@ public class FrontChatsService {
                     .createdAt(chatDTO.getCreatedAt())
                     .build();
         }
+    }
+
+    public long createPrivateChat(String creatorUsername, String username) throws StatusException, ServerException {
+        return messageServiceClient.createPrivateChat(frontUserService.getUserId(creatorUsername),
+                frontUserService.getUserId(username));
+    }
+
+    public long createGroupChat(String creatorUsername, GroupChatInputDTO groupChatInputDTO) throws StatusException, ServerException {
+        return messageServiceClient.createGroupChat(frontUserService.getUserId(creatorUsername), groupChatInputDTO);
     }
 }

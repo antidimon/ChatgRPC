@@ -90,15 +90,15 @@ function createChatInputContainer(chatId) {
     chatInputContainer.classList.add('chat-input');
 
     const sendMessageForm = document.createElement('form');
-    sendMessageForm.id = `send-message-form-${chatId}`; // Уникальный ID для формы
+    sendMessageForm.id = `send-message-form-chat`; // Уникальный ID для формы
 
     const newMessageInput = document.createElement('input');
     newMessageInput.type = 'text';
-    newMessageInput.id = `new-message-${chatId}`;
+    newMessageInput.id = `new-message`;
     newMessageInput.placeholder = 'Введите сообщение...';
 
     const sendButton = document.createElement('button');
-    sendButton.id = `send-button-${chatId}`;
+    sendButton.id = `send-button`;
     sendButton.textContent = 'Отправить';
 
     sendMessageForm.appendChild(newMessageInput);

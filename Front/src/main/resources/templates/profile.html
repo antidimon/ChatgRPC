@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактирование профиля</title>
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<div class="top-bar" style="justify-content: center;">
+  <div class="header-left">
+    <a href="/" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
+      <h1 style="margin: 0; font-size: 36px;">Messenger</h1>
+    </a>
+  </div>
+</div>
+<div class="container">
+  <div class="profile-header">
+    <h2>Редактирование профиля</h2>
+  </div>
+
+  <form id="profileForm">
+    <div class="form-group">
+      <label for="username">Имя пользователя</label>
+      <input type="text" id="username" name="username" th:value="${user.getUsername()}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Имя</label>
+      <input type="text" id="name" name="name" th:value="${user.getName()}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="age">Возраст</label>
+      <input type="number" id="age" name="age" min="1" max="150" th:value="${user.getAge()}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" th:value="${user.getEmail()}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Номер телефона</label>
+      <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{11}" th:value="${user.getPhoneNumber()}" required>
+    </div>
+
+    <div class="form-group password-container">
+      <label for="password">Пароль</label>
+      <input type="password" id="password" name="password" required>
+      <span class="show-password">Показать</span>
+    </div>
+
+    <div class="button-container">
+      <button type="submit" class="save-button">Сохранить изменения</button>
+    </div>
+  </form>
+</div>
+
+<script th:inline="javascript">
+  window.userId = [[${id}]];
+</script>
+<script src="/js/profile.js"></script>
+</body>
+</html>

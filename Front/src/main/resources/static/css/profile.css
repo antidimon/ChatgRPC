@@ -1,0 +1,145 @@
+/* Общие стили */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #66ccff, #ffcc66);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* Заголовок */
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ff9900;
+    padding-bottom: 15px;
+}
+
+.profile-header h2 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin: 0;
+}
+
+/* Форма */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #666;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 8px rgba(255, 153, 0, 0.3);
+    outline: none;
+}
+
+/* Пароль */
+.password-container {
+    position: relative;
+}
+
+.show-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #ff9900;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Кнопка */
+.button-container {
+    margin-top: 30px;
+}
+
+.save-button {
+    background: #ff9900;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.save-button:hover {
+    background: #e68a00;
+}
+
+/* Ошибки */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
+input.error {
+    border-color: #e74c3c !important;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .profile-header h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .save-button {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+@media (max-width: 768px) {
+    .header-left h1 {
+        font-size: 24px;
+    }
+}

@@ -4,6 +4,7 @@ import {sendMessage} from "./chat-message.js";
 
 export function displayUserProfile(userProfile) {
     setCurrentProfileUsername(userProfile.username);
+    const chatWindow = document.querySelector('.chat-window');
     const chatHeader = document.querySelector('.chat-header');
     const chatMessagesContainer = document.querySelector('.chat-messages-container');
     const chatInputContainer = document.querySelector('.chat-input');
@@ -47,23 +48,22 @@ export function displayUserProfile(userProfile) {
     newChatInputContainer.classList.add('chat-input');
 
     const sendMessageForm = document.createElement('form');
-    sendMessageForm.id = `send-message-form-${userProfile.username}`; // Уникальный ID
+    sendMessageForm.id = `send-message-form-user`; // Уникальный ID
 
     const newMessageInput = document.createElement('input');
     newMessageInput.type = 'text';
-    newMessageInput.id = `new-message-${userProfile.username}`;
+    newMessageInput.id = `new-message`;
     newMessageInput.placeholder = 'Введите сообщение...';
 
     const sendButton = document.createElement('button');
-    sendButton.id = `send-button-${userProfile.username}`;
+    sendButton.id = `send-button`;
     sendButton.textContent = 'Отправить';
 
     sendMessageForm.appendChild(newMessageInput);
     sendMessageForm.appendChild(sendButton);
     newChatInputContainer.appendChild(sendMessageForm);
 
-    // Добавляем новую форму в userProfileContainer
-    userProfileContainer.appendChild(newChatInputContainer);
+    chatWindow.appendChild(newChatInputContainer);
 
     // Добавляем обработчик события отправки формы
     sendMessageForm.addEventListener('submit', async (e) => {

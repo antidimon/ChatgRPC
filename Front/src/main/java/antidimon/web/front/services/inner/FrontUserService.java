@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.naming.directory.InvalidAttributesException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class FrontUserService {
 
     @Transactional(rollbackFor = {InvalidAttributesException.class, InternalError.class})
     public void save(MyUserRegisterDTO user) throws InvalidAttributesException, InternalError, StatusException {
-        encodePersonPassword(user);
+        user.setPassword(encodePersonPassword(user.getPassword()));
 
         myUserRepository.save(MyUser.builder()
                 .username(user.getUsername())
@@ -42,8 +43,8 @@ public class FrontUserService {
         else throw new InvalidAttributesException(String.join(",", errors));
     }
 
-    private void encodePersonPassword(MyUserRegisterDTO user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    private String encodePersonPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
     public long getUserId(String username) throws NoSuchElementException {
@@ -62,12 +63,19 @@ public class FrontUserService {
 
     public ChatUserOutputDTO getUser(long userId) throws StatusException {
         String username = getUsername(userId);
+        return this.getUser(username);
+    }
+    public ChatUserOutputDTO getUser(String username) throws StatusException {
         return userServiceClient.getUser(username);
-
     }
 
-    public void editUser(String username, ChatUserInputDTO chatUserInputDTO) throws StatusException{
-        long userId = getUserId(username);
+    @Transactional(rollbackFor = {StatusException.class})
+    public void editUser(long userId, ChatUserInputDTO chatUserInputDTO) throws StatusException{
+        if (!chatUserInputDTO.getPassword().isBlank()) {
+            MyUser user = myUserRepository.findById(userId).get();
+            user.setPassword(this.encodePersonPassword(chatUserInputDTO.getPassword()));
+            myUserRepository.save(user);
+        }
         userServiceClient.editUser(userId, chatUserInputDTO);
     }
 

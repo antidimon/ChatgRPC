@@ -211,7 +211,7 @@ body {
     box-sizing: border-box;
 }
 
-#send-message-form {
+#send-message-form-chat, #send-message-form-user {
     display: flex;
     width: 100%;
 }

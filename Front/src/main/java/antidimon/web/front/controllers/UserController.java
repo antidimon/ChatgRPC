@@ -52,14 +52,15 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PatchMapping("/edit")
-    public ResponseEntity<?> editUser(HttpServletRequest request, @RequestBody ChatUserInputDTO chatUserInputDTO){
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> editUser(HttpServletRequest request,
+                                      @RequestBody ChatUserInputDTO chatUserInputDTO,
+                                      @PathVariable("userId") long userId) {
 
-        String username = jwtProvider.getUsername(request.getCookies());
         try {
-            frontUserService.editUser(username, chatUserInputDTO);
+            frontUserService.editUser(userId, chatUserInputDTO);
         }catch(Exception e) {
-            log.warn("Couldn't update user " + username + ". " + e);
+            log.warn("Couldn't update user. " + e);
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();

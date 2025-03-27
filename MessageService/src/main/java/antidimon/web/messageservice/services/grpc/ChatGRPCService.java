@@ -31,11 +31,9 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
                 .build();
 
         try {
-            long chatId = chatService.createGroupChat(chatInputDTO);
+            var chat = chatService.createGroupChat(chatInputDTO);
             CreateGroupChatResponse response = CreateGroupChatResponse.newBuilder()
-                    .setSuccess(true)
-                    .setChatId(chatId)
-                    .setMessage("Chat created successfully")
+                    .setChat(convertGroupToGRPC(chat))
                     .build();
 
             responseObserver.onNext(response);
@@ -44,7 +42,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException ex){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(ex.getMessage())));
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("Couldn't create group chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -54,12 +52,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         try {
             GroupChatOutputDTO chat = chatService.getGroupChat(request.getChatId());
             GetGroupChatResponse response = GetGroupChatResponse.newBuilder()
-                    .setChatId(chat.getChatId())
-                    .setName(chat.getName())
-                    .setDescription(chat.getDescription())
-                    .setOwnerId(chat.getOwnerId())
-                    .addAllParticipants(chat.getMembersIds())
-                    .setCreatedAt(chat.getCreatedAt().toString())
+                    .setChat(convertGroupToGRPC(chat))
                     .build();
 
             responseObserver.onNext(response);
@@ -68,6 +61,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chat")));
         }catch (Exception e){
+            log.error("Couldn't get group chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -81,10 +75,9 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
                 .build();
 
         try {
-            chatService.updateGroupChat(editGroupChatDTO);
+            var chat = chatService.updateGroupChat(editGroupChatDTO);
             UpdateGroupChatResponse response = UpdateGroupChatResponse.newBuilder()
-                    .setSuccess(true)
-                    .setMessage("Updated successfully")
+                    .setChat(convertGroupToGRPC(chat))
                     .build();
 
             responseObserver.onNext(response);
@@ -93,6 +86,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch(NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chat")));
         } catch (Exception e) {
+            log.error("Couldn't update group chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -114,6 +108,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         } catch (IllegalArgumentException illegalArgumentException){
             responseObserver.onError(new StatusException(Status.INVALID_ARGUMENT.withDescription("Wrong chat type")));
         } catch (Exception e) {
+            log.error("Couldn't delete group chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -121,20 +116,20 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
     @Override
     public void createPrivateChat(CreatePrivateChatRequest request, StreamObserver<CreatePrivateChatResponse> responseObserver) {
         try {
-            long chatId = chatService.createPrivateChat(request.getCreatorId(), request.getUser2Id());
+            var chat = chatService.createPrivateChat(request.getCreatorId(), request.getUser2Id());
 
             CreatePrivateChatResponse response = CreatePrivateChatResponse.newBuilder()
-                    .setSuccess(true)
-                    .setChatId(chatId)
-                    .setMessage("Private chat created successfully")
+                    .setChat(convertPrivateToGRPC(chat))
                     .build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
         }catch (NoSuchElementException ex){
+            log.error("Users not found");
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(ex.getMessage())));
         } catch (Exception e) {
+            log.error("Couldn't create private chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -142,12 +137,9 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
     @Override
     public void getPrivateChat(GetPrivateChatRequest request, StreamObserver<GetPrivateChatResponse> responseObserver) {
         try {
-            PrivateChatOutputDTO chatOutputDTO = chatService.getPrivateChat(request.getChatId());
+            var chat = chatService.getPrivateChat(request.getChatId());
             GetPrivateChatResponse response = GetPrivateChatResponse.newBuilder()
-                    .setId(request.getChatId())
-                    .setUser1Id(chatOutputDTO.getUser1Id())
-                    .setUser2Id(chatOutputDTO.getUser2Id())
-                    .setCreatedAt(chatOutputDTO.getCreatedAt().toString())
+                    .setChat(convertPrivateToGRPC(chat))
                     .build();
 
             responseObserver.onNext(response);
@@ -156,6 +148,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         } catch(NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chat")));
         } catch (Exception e) {
+            log.error("Couldn't get private chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -177,6 +170,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         } catch (IllegalArgumentException illegalArgumentException){
             responseObserver.onError(new StatusException(Status.INVALID_ARGUMENT.withDescription("Wrong chat type")));
         } catch (Exception e) {
+            log.error("Couldn't delete private chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -196,6 +190,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(noSuchElementException.getMessage())));
         }catch (Exception e){
+            log.error("Couldn't add user to group chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -215,6 +210,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription(noSuchElementException.getMessage())));
         }catch (Exception e){
+            log.error("Couldn't remove user from group chat", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -251,7 +247,7 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
         }catch (NoSuchElementException noSuchElementException){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("Couldn't find chats")));
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("Couldn't get user chats", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -270,7 +266,29 @@ public class ChatGRPCService extends antidimon.web.messageservice.proto.ChatServ
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }catch (Exception e){
+            log.error("Couldn't delete user chats", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
+    }
+
+
+    private static PrivateChat convertPrivateToGRPC(PrivateChatOutputDTO privateChatOutputDTO){
+        return PrivateChat.newBuilder()
+                .setChatId(privateChatOutputDTO.getChatId())
+                .setUser1Id(privateChatOutputDTO.getUser1Id())
+                .setUser2Id(privateChatOutputDTO.getUser2Id())
+                .setCreatedAt(privateChatOutputDTO.getCreatedAt().toString())
+                .build();
+    }
+
+    private static GroupChat convertGroupToGRPC(GroupChatOutputDTO groupChatOutputDTO){
+        return GroupChat.newBuilder()
+                .setChatId(groupChatOutputDTO.getChatId())
+                .setName(groupChatOutputDTO.getName())
+                .setDescription(groupChatOutputDTO.getDescription())
+                .setOwnerId(groupChatOutputDTO.getOwnerId())
+                .addAllParticipants(groupChatOutputDTO.getMembersIds())
+                .setCreatedAt(groupChatOutputDTO.getCreatedAt().toString())
+                .build();
     }
 }

@@ -10,6 +10,7 @@ import io.grpc.Status;
 import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.NoSuchElementException;
 
 @GrpcService
 @AllArgsConstructor
+@Slf4j
 public class ChatMessageGRPCService extends antidimon.web.messageservice.proto.MessageServiceGrpc.MessageServiceImplBase {
     private ChatMessageService chatMessageService;
-    private ChatService chatService;
 
     @Override
     public void registerMessage(RegisterMessageRequest request, StreamObserver<RegisterMessageResponse> responseObserver) {
@@ -39,6 +40,7 @@ public class ChatMessageGRPCService extends antidimon.web.messageservice.proto.M
         }catch (NoSuchElementException e){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("No chat found")));
         }catch (Exception e){
+            log.error("Couldn't save message", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -67,6 +69,7 @@ public class ChatMessageGRPCService extends antidimon.web.messageservice.proto.M
         }catch (NoSuchElementException e){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("No chat found")));
         }catch (Exception e){
+            log.error("Couldn't get chat message", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -84,6 +87,7 @@ public class ChatMessageGRPCService extends antidimon.web.messageservice.proto.M
         }catch (NoSuchElementException e){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("No message found")));
         }catch (Exception e){
+            log.error("Couldn't update message", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }
@@ -101,6 +105,7 @@ public class ChatMessageGRPCService extends antidimon.web.messageservice.proto.M
         }catch (NoSuchElementException e){
             responseObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("No message found")));
         }catch (Exception e){
+            log.error("Couldn't delete message", e);
             responseObserver.onError(new StatusException(Status.INTERNAL));
         }
     }

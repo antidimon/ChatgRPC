@@ -22,10 +22,9 @@ export async function sendMessage(messageText) {
         try {
             console.log("Trying to create chat")
             const chatData = await createPrivateChat(currentProfileUsername);
-            const newChatId = chatData.id;
 
-            await sendMessageToChat(newChatId, messageText);
-            await updateChatWindow({ chatId: newChatId, name: currentProfileUsername });
+            await sendMessageToChat(chatData.chatId, messageText);
+            await updateChatWindow(chatData);
         } catch (error) {
             console.error('Произошла ошибка:', error);
         }

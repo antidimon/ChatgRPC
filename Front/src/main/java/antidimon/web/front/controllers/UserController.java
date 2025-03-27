@@ -52,7 +52,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/{userId}")
+    @PatchMapping("/{userId}")
     public ResponseEntity<?> editUser(HttpServletRequest request,
                                       @RequestBody ChatUserInputDTO chatUserInputDTO,
                                       @PathVariable("userId") long userId) {

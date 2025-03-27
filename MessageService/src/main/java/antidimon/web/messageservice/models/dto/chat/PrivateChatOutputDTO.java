@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 public class PrivateChatOutputDTO {
 
+    private long chatId;
     private long user1Id;
     private long user2Id;
     private LocalDateTime createdAt;

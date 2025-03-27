@@ -1,10 +1,5 @@
-// user-search.js
 import { updateUsersList } from './user-list.js';
-import { fetchChats } from './chat-api.js';
 
-/**
- * Ищет пользователей по имени.
- */
 export async function fetchUsers(username) {
     try {
         const response = await fetch(`/api/users?regex=${username}`, { credentials: 'include' });

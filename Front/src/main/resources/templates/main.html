@@ -35,6 +35,20 @@
                 <input type="text" id="search-input" placeholder="Поиск пользователей...">
                 <button id="search-button">Найти</button>
             </div>
+            <div class="group-add">
+                <button id="group-add-button">Создать групповой чат</button>
+            </div>
+            <div id="group-modal" style="display: none;">
+                <div>
+                    <h3>Создание новой группы</h3>
+                    <label for="group-name">Название группы:</label>
+                    <input type="text" id="group-name" placeholder="Введите название">
+                    <label for="group-description">Описание:</label>
+                    <textarea id="group-description" placeholder="Введите описание"></textarea>
+                    <button id="group-create-button">Создать</button>
+                    <button id="group-cancel-button">Отмена</button>
+                </div>
+            </div>
             <ul id="chats">
                 <!-- Чаты будут добавлены динамически -->
             </ul>

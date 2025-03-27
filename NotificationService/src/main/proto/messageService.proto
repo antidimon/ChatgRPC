@@ -86,9 +86,7 @@ message CreateGroupChatRequest {
 }
 
 message CreateGroupChatResponse {
-  bool success = 1;
-  string message = 2;
-  int64 chat_id = 3;
+  GroupChat chat = 1;
 }
 
 message GetGroupChatRequest {
@@ -96,6 +94,10 @@ message GetGroupChatRequest {
 }
 
 message GetGroupChatResponse {
+  GroupChat chat = 1;
+}
+
+message GroupChat {
   int64 chat_id = 1;
   string name = 2;
   string description = 3;
@@ -111,8 +113,7 @@ message UpdateGroupChatRequest {
 }
 
 message UpdateGroupChatResponse {
-  bool success = 1;
-  string message = 2;
+  GroupChat chat = 1;
 }
 
 message DeleteGroupChatRequest {
@@ -130,9 +131,7 @@ message CreatePrivateChatRequest {
 }
 
 message CreatePrivateChatResponse {
-  bool success = 1;
-  string message = 2;
-  int64 chat_id = 3;
+  PrivateChat chat = 1;
 }
 
 message GetPrivateChatRequest {
@@ -140,7 +139,11 @@ message GetPrivateChatRequest {
 }
 
 message GetPrivateChatResponse {
-  int64 id = 1;
+  PrivateChat chat = 1;
+}
+
+message PrivateChat {
+  int64 chat_id = 1;
   int64 user1_id = 2;
   int64 user2_id = 3;
   string created_at = 4;

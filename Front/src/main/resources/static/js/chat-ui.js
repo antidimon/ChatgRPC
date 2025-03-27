@@ -3,9 +3,7 @@ import { createMessageElement } from './main-utils.js';
 import { getChatInfo, getChatMessages, deleteChat } from './chat-api.js';
 import { setCurrentChatId } from "./chat-state.js";
 
-/**
- * Обновляет окно чата.
- */
+
 export async function updateChatWindow(chat) {
     setCurrentChatId(chat.chatId);
     const chatWindow = document.querySelector('.chat-window');
@@ -13,13 +11,12 @@ export async function updateChatWindow(chat) {
 
     const chatHeader = createChatHeader(chat);
     const chatMessagesContainer = createChatMessagesContainer();
-    const chatInputContainer = createChatInputContainer(chat.chatId); // Передаем chatId
+    const chatInputContainer = createChatInputContainer(chat.chatId);
 
     chatWindow.appendChild(chatHeader);
     chatWindow.appendChild(chatMessagesContainer);
     chatWindow.appendChild(chatInputContainer);
 
-    // Загрузка и отображение сообщений
     try {
         const messages = await getChatMessages(chat.chatId);
         messages.forEach(message => {
@@ -27,7 +24,6 @@ export async function updateChatWindow(chat) {
             chatMessagesContainer.appendChild(messageElement);
         });
 
-        // Скролл к последнему сообщению
         chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
 
     } catch (error) {
@@ -35,9 +31,8 @@ export async function updateChatWindow(chat) {
     }
 }
 
-/**
- * Создает шапку чата.
- */
+
+
 function createChatHeader(chat) {
     const chatHeader = document.createElement('div');
     chatHeader.classList.add('chat-header');
@@ -58,10 +53,9 @@ function createChatHeader(chat) {
     chatHeader.appendChild(chatNameSpan);
     chatHeader.appendChild(chatMenu);
 
-    // Добавляем обработчик клика на иконку чата для отображения меню
     chatTypeIcon.addEventListener('click', async () => {
-        await createChatMenu(chat, chatMenu); // Заполняем меню информацией о чате
-        chatMenu.style.display = 'block'; // Отображаем меню
+        await createChatMenu(chat, chatMenu);
+        chatMenu.style.display = 'block';
     });
 
     document.addEventListener('click', (e) => {
@@ -73,24 +67,22 @@ function createChatHeader(chat) {
     return chatHeader;
 }
 
-/**
- * Создает контейнер для сообщений.
- */
+
+
 function createChatMessagesContainer() {
     const chatMessagesContainer = document.createElement('div');
     chatMessagesContainer.classList.add('chat-messages-container');
     return chatMessagesContainer;
 }
 
-/**
- * Создает форму отправки сообщений для чата.
- */
+
+
 function createChatInputContainer(chatId) {
     const chatInputContainer = document.createElement('div');
     chatInputContainer.classList.add('chat-input');
 
     const sendMessageForm = document.createElement('form');
-    sendMessageForm.id = `send-message-form-chat`; // Уникальный ID для формы
+    sendMessageForm.id = `send-message-form-chat`;
 
     const newMessageInput = document.createElement('input');
     newMessageInput.type = 'text';
@@ -105,7 +97,7 @@ function createChatInputContainer(chatId) {
     sendMessageForm.appendChild(sendButton);
     chatInputContainer.appendChild(sendMessageForm);
 
-    // Добавляем обработчик события отправки формы
+
     sendMessageForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const messageText = newMessageInput.value.trim();
@@ -119,11 +111,10 @@ function createChatInputContainer(chatId) {
     return chatInputContainer;
 }
 
-/**
- * Создает меню чата.
- */
+
+
 async function createChatMenu(chat, chatMenuElement) {
-    chatMenuElement.innerHTML = ''; // Очищаем меню
+    chatMenuElement.innerHTML = '';
 
     try {
         const chatData = await getChatInfo(chat.chatId, chat.chatType === 'PRIVATE');
@@ -147,7 +138,7 @@ async function createChatMenu(chat, chatMenuElement) {
             chatInfo = `<p>Неизвестный тип чата</p>`;
         }
 
-        // Добавляем кнопку удаления чата
+
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Удалить чат';
         deleteButton.addEventListener('click', async () => {
@@ -155,7 +146,7 @@ async function createChatMenu(chat, chatMenuElement) {
                 try {
                     await deleteChat(chat.chatId, chat.chatType === 'PRIVATE');
                     alert('Чат успешно удален.');
-                    window.location.reload(); //  перезагрузка страницы
+                    window.location.reload();
                 } catch (deleteError) {
                     console.error('Ошибка при удалении чата:', deleteError);
                     alert('Ошибка при удалении чата.');

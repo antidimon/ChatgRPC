@@ -1,9 +1,5 @@
-// chat-list.js
 import { updateChatWindow } from './chat-ui.js';
 
-/**
- * Обновляет список чатов.
- */
 export function updateChatsList(chats) {
     const chatsList = document.getElementById('chats');
     if (!chatsList) {

@@ -53,6 +53,7 @@ public class ChatMapper {
 
     public PrivateChatOutputDTO toPrivateOutputDTO(Chat chat) {
         return PrivateChatOutputDTO.builder()
+                .chatId(chat.getId())
                 .user1Id(chat.getUser1Id())
                 .user2Id(chat.getUser2Id())
                 .createdAt(chat.getCreatedAt())

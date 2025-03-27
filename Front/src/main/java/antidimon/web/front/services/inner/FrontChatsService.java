@@ -35,22 +35,10 @@ public class FrontChatsService {
     public ChatToFrontDTO getChat(long chatId, boolean isPrivate) throws StatusException {
         if (isPrivate){
             PrivateChatOutputDTO chatDTO = this.getPrivateChat(chatId);
-            return PrivateChatWithIdUsernameDTO.builder()
-                    .chatId(chatDTO.getChatId())
-                    .user1(new ChatUserIdUsernameDTO(chatDTO.getUser1Id(), frontUserService.getUsername(chatDTO.getUser1Id())))
-                    .user2(new ChatUserIdUsernameDTO(chatDTO.getUser2Id(), frontUserService.getUsername(chatDTO.getUser2Id())))
-                    .createdAt(chatDTO.getCreatedAt())
-                    .build();
+            return this.convertPrivateDTOToIdUsername(chatDTO);
         }else {
             GroupChatOutputDTO chatDTO = this.getGroupChat(chatId);
-            return GroupChatWithIdUsernamesDTO.builder()
-                    .chatId(chatDTO.getChatId())
-                    .name(chatDTO.getName())
-                    .description(chatDTO.getDescription())
-                    .ownerId(chatDTO.getOwnerId())
-                    .users(chatDTO.getMembersIds().stream().map(id -> new ChatUserIdUsernameDTO(id, frontUserService.getUsername(id))).toList())
-                    .createdAt(chatDTO.getCreatedAt())
-                    .build();
+            return this.convertGroupDTOToIdUsername(chatDTO);
         }
     }
 
@@ -62,13 +50,15 @@ public class FrontChatsService {
         return messageServiceClient.getGroupChat(chatId);
     }
 
-    public long createPrivateChat(String creatorUsername, String username) throws StatusException, ServerException {
-        return messageServiceClient.createPrivateChat(frontUserService.getUserId(creatorUsername),
+    public PrivateChatWithIdUsernameDTO createPrivateChat(String creatorUsername, String username) throws StatusException {
+        var chat = messageServiceClient.createPrivateChat(frontUserService.getUserId(creatorUsername),
                 frontUserService.getUserId(username));
+        return this.convertPrivateDTOToIdUsername(chat);
     }
 
-    public long createGroupChat(String creatorUsername, GroupChatInputDTO groupChatInputDTO) throws StatusException, ServerException {
-        return messageServiceClient.createGroupChat(frontUserService.getUserId(creatorUsername), groupChatInputDTO);
+    public GroupChatWithIdUsernamesDTO createGroupChat(String creatorUsername, GroupChatInputDTO groupChatInputDTO) throws StatusException {
+        var chat = messageServiceClient.createGroupChat(frontUserService.getUserId(creatorUsername), groupChatInputDTO);
+        return this.convertGroupDTOToIdUsername(chat);
     }
 
     public void deleteChat(String username, long chatId, boolean isPrivate) throws StatusException, SecurityException {
@@ -89,5 +79,26 @@ public class FrontChatsService {
             }
         }
 
+    }
+
+
+    private PrivateChatWithIdUsernameDTO convertPrivateDTOToIdUsername(PrivateChatOutputDTO chatDTO){
+        return PrivateChatWithIdUsernameDTO.builder()
+                .chatId(chatDTO.getChatId())
+                .user1(new ChatUserIdUsernameDTO(chatDTO.getUser1Id(), frontUserService.getUsername(chatDTO.getUser1Id())))
+                .user2(new ChatUserIdUsernameDTO(chatDTO.getUser2Id(), frontUserService.getUsername(chatDTO.getUser2Id())))
+                .createdAt(chatDTO.getCreatedAt())
+                .build();
+    }
+
+    private GroupChatWithIdUsernamesDTO convertGroupDTOToIdUsername(GroupChatOutputDTO chatDTO){
+        return GroupChatWithIdUsernamesDTO.builder()
+                .chatId(chatDTO.getChatId())
+                .name(chatDTO.getName())
+                .description(chatDTO.getDescription())
+                .ownerId(chatDTO.getOwnerId())
+                .users(chatDTO.getMembersIds().stream().map(id -> new ChatUserIdUsernameDTO(id, frontUserService.getUsername(id))).toList())
+                .createdAt(chatDTO.getCreatedAt())
+                .build();
     }
 }

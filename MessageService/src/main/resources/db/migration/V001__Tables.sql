@@ -6,7 +6,7 @@ CREATE TABLE chats (
     owner_id bigint,
     user1_id bigint,
     user2_id bigint,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP
 );
 
 CREATE TABLE chat_participants (

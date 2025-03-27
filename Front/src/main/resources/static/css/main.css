@@ -101,9 +101,7 @@ body {
     align-items: center;
     padding: 15px;
     background-color: #ddd;
-    border-bottom: 1px solid #ccc;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-radius: 10px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -125,6 +123,39 @@ body {
     color: #fff;
     cursor: pointer;
     font-size: 16px;
+}
+
+.group-add {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #ddd;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#group-add-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #ff9900;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#group-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 #chats, #users {

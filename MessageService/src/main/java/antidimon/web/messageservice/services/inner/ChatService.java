@@ -39,20 +39,20 @@ public class ChatService {
     }
 
     @Transactional
-    public long createGroupChat(GroupChatInputDTO chatInputDTO) throws NoSuchElementException {
+    public GroupChatOutputDTO createGroupChat(GroupChatInputDTO chatInputDTO) throws NoSuchElementException {
         this.checkIfUserExist(List.of(chatInputDTO.getOwnerId()));
         Chat chat = chatMapper.toEntity(chatInputDTO);
         long chatId = chatRepository.save(chat).getId();
         this.addUserToChat(chatId, chat.getOwnerId());
-        return chatId;
+        return chatMapper.toGroupOutputDTO(chat);
     }
 
     @Transactional
-    public long createPrivateChat(long creatorId, long user2Id) throws NoSuchElementException {
+    public PrivateChatOutputDTO createPrivateChat(long creatorId, long user2Id) throws NoSuchElementException {
         this.checkIfUserExist(List.of(creatorId, user2Id));
         Optional<Chat> existingChat = chatRepository.findByUsers(creatorId, user2Id);
         if (existingChat.isPresent()) {
-            return existingChat.get().getId();
+            return chatMapper.toPrivateOutputDTO(existingChat.get());
         }
         Chat chat = Chat.builder()
                 .type(ChatType.PRIVATE)
@@ -62,7 +62,7 @@ public class ChatService {
 
         long id = chatRepository.save(chat).getId();
         notificationServiceClient.sendChatNotification(user2Id, "New private chat");
-        return id;
+        return chatMapper.toPrivateOutputDTO(chat);
     }
 
     public GroupChatOutputDTO getGroupChat(long chatId) throws NoSuchElementException {
@@ -76,13 +76,15 @@ public class ChatService {
     }
 
     @Transactional
-    public void updateGroupChat(EditGroupChatDTO editGroupChatDTO) throws NoSuchElementException {
+    public GroupChatOutputDTO updateGroupChat(EditGroupChatDTO editGroupChatDTO) throws NoSuchElementException {
         Chat chat = this.getChat(editGroupChatDTO.getChatId());
 
         chat.setName(editGroupChatDTO.getName());
         chat.setDescription(editGroupChatDTO.getDescription());
 
         chatRepository.save(chat);
+
+        return chatMapper.toGroupOutputDTO(chat);
     }
 
     public List<Chat> getUserChats(long userId){

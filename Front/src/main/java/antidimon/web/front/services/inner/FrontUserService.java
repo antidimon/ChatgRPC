@@ -73,7 +73,7 @@ public class FrontUserService {
     public void editUser(long userId, ChatUserInputDTO chatUserInputDTO) throws StatusException{
         if (!chatUserInputDTO.getPassword().isBlank()) {
             MyUser user = myUserRepository.findById(userId).get();
-            user.setPassword(this.encodePersonPassword(chatUserInputDTO.getPassword()));
+            if (chatUserInputDTO.getPassword() != null) user.setPassword(this.encodePersonPassword(chatUserInputDTO.getPassword()));
             myUserRepository.save(user);
         }
         userServiceClient.editUser(userId, chatUserInputDTO);

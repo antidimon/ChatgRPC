@@ -51,27 +51,28 @@ public class MessageServiceClient {
     public PrivateChatOutputDTO getPrivateChat(long chatId) {
         GetPrivateChatRequest request = GetPrivateChatRequest.newBuilder().setChatId(chatId).build();
         GetPrivateChatResponse response = chatsStub.getPrivateChat(request);
+        var chat = response.getChat();
         return PrivateChatOutputDTO.builder()
-                .chatId(response.getId())
-                .user1Id(response.getUser1Id())
-                .user2Id(response.getUser2Id())
-                .createdAt(LocalDateTime.parse(response.getCreatedAt()))
+                .chatId(chat.getId())
+                .user1Id(chat.getUser1Id())
+                .user2Id(chat.getUser2Id())
+                .createdAt(LocalDateTime.parse(chat.getCreatedAt()))
                 .build();
     }
 
     public GroupChatOutputDTO getGroupChat(long chatId) {
         GetGroupChatRequest request = GetGroupChatRequest.newBuilder().setChatId(chatId).build();
         GetGroupChatResponse response = chatsStub.getGroupChat(request);
+        var chat = response.getChat();
         return GroupChatOutputDTO.builder()
-                .chatId(response.getChatId())
-                .name(response.getName())
-                .description(response.getDescription())
-                .ownerId(response.getOwnerId())
-                .membersIds(response.getParticipantsList())
-                .createdAt(LocalDateTime.parse(response.getCreatedAt()))
+                .chatId(chat.getChatId())
+                .name(chat.getName())
+                .description(chat.getDescription())
+                .ownerId(chat.getOwnerId())
+                .membersIds(chat.getParticipantsList())
+                .createdAt(LocalDateTime.parse(chat.getCreatedAt()))
                 .build();
     }
-
 
     public List<ChatMessageOutputDTO> getChatMessages(long chatId) {
 
@@ -89,7 +90,6 @@ public class MessageServiceClient {
                 .toList();
     }
 
-
     public void createMessage(ChatMessageDTO chatMessageDTO) {
 
         RegisterMessageRequest request = RegisterMessageRequest.newBuilder()
@@ -103,20 +103,22 @@ public class MessageServiceClient {
 
     }
 
-    public long createPrivateChat(long creatorId, long user2Id) throws ServerException {
+    public PrivateChatOutputDTO createPrivateChat(long creatorId, long user2Id) {
 
         CreatePrivateChatRequest request = CreatePrivateChatRequest.newBuilder().setCreatorId(creatorId).setUser2Id(user2Id).build();
         CreatePrivateChatResponse response = chatsStub.createPrivateChat(request);
-        if (!response.getSuccess()){
-            log.error("Failed to create private chat. {}", response.getMessage());
-            throw new ServerException("Failed to create private chat. " + response.getMessage());
-        }else {
-            return response.getChatId();
-        }
+        var chat = response.getChat();
+        return PrivateChatOutputDTO.builder()
+                .chatId(chat.getId())
+                .user1Id(chat.getUser1Id())
+                .user2Id(chat.getUser2Id())
+                .createdAt(LocalDateTime.parse(chat.getCreatedAt()))
+                .build();
+
 
     }
 
-    public long createGroupChat(long userId, GroupChatInputDTO groupChatInputDTO) throws ServerException {
+    public GroupChatOutputDTO createGroupChat(long userId, GroupChatInputDTO groupChatInputDTO) {
 
         CreateGroupChatRequest request = CreateGroupChatRequest.newBuilder()
                 .setOwnerId(userId)
@@ -124,11 +126,15 @@ public class MessageServiceClient {
                 .setDescription(groupChatInputDTO.getDescription())
                 .build();
         CreateGroupChatResponse response = chatsStub.createGroupChat(request);
-        if (!response.getSuccess()) {
-            log.error("Failed to create group chat. {}", response.getMessage());
-            throw new ServerException("Failed to create private chat. " + response.getMessage());
-        }
-        else return response.getChatId();
+        var chat = response.getChat();
+        return GroupChatOutputDTO.builder()
+                .chatId(chat.getChatId())
+                .name(chat.getName())
+                .description(chat.getDescription())
+                .ownerId(chat.getOwnerId())
+                .membersIds(chat.getParticipantsList())
+                .createdAt(LocalDateTime.parse(chat.getCreatedAt()))
+                .build();
     }
 
     public void deletePrivateChat(long chatId) {

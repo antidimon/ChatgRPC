@@ -63,12 +63,10 @@ public class ChatController {
 
 
     @PostMapping("/private")
-    public ResponseEntity<PrivateChatWithIdUsernameDTO> createPrivateChat(HttpServletRequest request, @RequestParam(value = "user2") String username) {
-
-        log.info("Creating chat");
+    public ResponseEntity<ChatOutputDTO> createPrivateChat(HttpServletRequest request, @RequestParam(value = "user2") String username) {
 
         String creatorUsername = jwtProvider.getUsername(request.getCookies());
-        PrivateChatWithIdUsernameDTO chat;
+        ChatOutputDTO chat;
         try {
             chat = frontChatsService.createPrivateChat(creatorUsername, username);
         } catch (Exception e) {
@@ -82,10 +80,10 @@ public class ChatController {
 
 
     @PostMapping("/group")
-    public ResponseEntity<GroupChatWithIdUsernamesDTO> createGroupChat(HttpServletRequest request, @RequestBody GroupChatInputDTO groupChatInputDTO) {
+    public ResponseEntity<ChatOutputDTO> createGroupChat(HttpServletRequest request, @RequestBody GroupChatInputDTO groupChatInputDTO) {
 
         String creatorUsername = jwtProvider.getUsername(request.getCookies());
-        GroupChatWithIdUsernamesDTO chat;
+        ChatOutputDTO chat;
         try {
             chat = frontChatsService.createGroupChat(creatorUsername, groupChatInputDTO);
         }catch (Exception e){

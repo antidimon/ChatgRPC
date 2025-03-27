@@ -1,15 +1,15 @@
-// chat-message.js
 import { getCurrentChatId } from './chat-state.js';
-import { getCurrentProfileUsername } from './user-context.js';
-import { sendMessageToChat, createPrivateChat } from './chat-api.js';
+import {getCurrentProfileUsername, setCurrentProfileUsername} from './user-context.js';
+import {sendMessageToChat, createPrivateChat, fetchChats} from './chat-api.js';
 import { updateChatWindow } from './chat-ui.js';
+import {updateChatsList} from "./chat-list.js";
 
-/**
- * Отправляет сообщение.
- */
+
 export async function sendMessage(messageText) {
     const currentChatId = getCurrentChatId();
     const currentProfileUsername = getCurrentProfileUsername();
+    const searchInput = document.getElementById('search-input');
+    const usersList = document.getElementById('users');
     if (currentChatId) {
         try {
             console.log("Sending message to chat")
@@ -24,9 +24,16 @@ export async function sendMessage(messageText) {
             const chatData = await createPrivateChat(currentProfileUsername);
 
             await sendMessageToChat(chatData.chatId, messageText);
+
             await updateChatWindow(chatData);
         } catch (error) {
             console.error('Произошла ошибка:', error);
         }
     }
+
+    setCurrentProfileUsername(null);
+    searchInput.value = '';
+    usersList.style.display = 'none';
+    fetchChats().then(chats => updateChatsList(chats));
+
 }

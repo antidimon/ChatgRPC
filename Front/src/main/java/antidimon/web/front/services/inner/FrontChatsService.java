@@ -1,5 +1,6 @@
 package antidimon.web.front.services.inner;
 
+import antidimon.web.front.mappers.ChatMapper;
 import antidimon.web.front.models.dto.chats.*;
 import antidimon.web.front.models.dto.users.ChatUserIdUsernameDTO;
 import antidimon.web.front.models.enums.ChatType;
@@ -18,6 +19,7 @@ public class FrontChatsService {
 
     private FrontUserService frontUserService;
     private MessageServiceClient messageServiceClient;
+    private ChatMapper chatMapper;
 
     public List<ChatOutputDTO> getUserChats(long userId) throws StatusException {
         var chats = messageServiceClient.getUserChats(userId);
@@ -35,10 +37,10 @@ public class FrontChatsService {
     public ChatToFrontDTO getChat(long chatId, boolean isPrivate) throws StatusException {
         if (isPrivate){
             PrivateChatOutputDTO chatDTO = this.getPrivateChat(chatId);
-            return this.convertPrivateDTOToIdUsername(chatDTO);
+            return chatMapper.convertPrivateDTOToIdUsername(chatDTO);
         }else {
             GroupChatOutputDTO chatDTO = this.getGroupChat(chatId);
-            return this.convertGroupDTOToIdUsername(chatDTO);
+            return chatMapper.convertGroupDTOToIdUsername(chatDTO);
         }
     }
 
@@ -50,15 +52,15 @@ public class FrontChatsService {
         return messageServiceClient.getGroupChat(chatId);
     }
 
-    public PrivateChatWithIdUsernameDTO createPrivateChat(String creatorUsername, String username) throws StatusException {
+    public ChatOutputDTO createPrivateChat(String creatorUsername, String username) throws StatusException {
         var chat = messageServiceClient.createPrivateChat(frontUserService.getUserId(creatorUsername),
                 frontUserService.getUserId(username));
-        return this.convertPrivateDTOToIdUsername(chat);
+        return chatMapper.convertPrivateDTOToChatOutputDTO(chat, username);
     }
 
-    public GroupChatWithIdUsernamesDTO createGroupChat(String creatorUsername, GroupChatInputDTO groupChatInputDTO) throws StatusException {
+    public ChatOutputDTO createGroupChat(String creatorUsername, GroupChatInputDTO groupChatInputDTO) throws StatusException {
         var chat = messageServiceClient.createGroupChat(frontUserService.getUserId(creatorUsername), groupChatInputDTO);
-        return this.convertGroupDTOToIdUsername(chat);
+        return chatMapper.convertGroupDTOToChatOutputDTO(chat);
     }
 
     public void deleteChat(String username, long chatId, boolean isPrivate) throws StatusException, SecurityException {
@@ -79,26 +81,5 @@ public class FrontChatsService {
             }
         }
 
-    }
-
-
-    private PrivateChatWithIdUsernameDTO convertPrivateDTOToIdUsername(PrivateChatOutputDTO chatDTO){
-        return PrivateChatWithIdUsernameDTO.builder()
-                .chatId(chatDTO.getChatId())
-                .user1(new ChatUserIdUsernameDTO(chatDTO.getUser1Id(), frontUserService.getUsername(chatDTO.getUser1Id())))
-                .user2(new ChatUserIdUsernameDTO(chatDTO.getUser2Id(), frontUserService.getUsername(chatDTO.getUser2Id())))
-                .createdAt(chatDTO.getCreatedAt())
-                .build();
-    }
-
-    private GroupChatWithIdUsernamesDTO convertGroupDTOToIdUsername(GroupChatOutputDTO chatDTO){
-        return GroupChatWithIdUsernamesDTO.builder()
-                .chatId(chatDTO.getChatId())
-                .name(chatDTO.getName())
-                .description(chatDTO.getDescription())
-                .ownerId(chatDTO.getOwnerId())
-                .users(chatDTO.getMembersIds().stream().map(id -> new ChatUserIdUsernameDTO(id, frontUserService.getUsername(id))).toList())
-                .createdAt(chatDTO.getCreatedAt())
-                .build();
     }
 }

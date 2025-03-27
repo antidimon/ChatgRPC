@@ -38,15 +38,21 @@
             <div class="group-add">
                 <button id="group-add-button">Создать групповой чат</button>
             </div>
-            <div id="group-modal" style="display: none;">
-                <div>
-                    <h3>Создание новой группы</h3>
-                    <label for="group-name">Название группы:</label>
-                    <input type="text" id="group-name" placeholder="Введите название">
-                    <label for="group-description">Описание:</label>
-                    <textarea id="group-description" placeholder="Введите описание"></textarea>
-                    <button id="group-create-button">Создать</button>
-                    <button id="group-cancel-button">Отмена</button>
+            <div id="group-modal" class="modal" style="display: none">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Создание новой группы</h3>
+                    </div>
+                    <div class="modal-body">
+                        <label for="group-name">Название группы:</label>
+                        <input type="text" id="group-name" placeholder="Введите название">
+                        <label for="group-description">Описание:</label>
+                        <textarea id="group-description" placeholder="Введите описание"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="group-create-button" class="btn btn-primary">Создать</button>
+                        <button id="group-cancel-button" class="btn btn-secondary">Отмена</button>
+                    </div>
                 </div>
             </div>
             <ul id="chats">

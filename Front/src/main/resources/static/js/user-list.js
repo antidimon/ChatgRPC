@@ -2,9 +2,7 @@
 import { getUserProfile } from './user-api.js';
 import { displayUserProfile } from './user-ui.js';
 
-/**
- * Обновляет список пользователей.
- */
+
 export function updateUsersList(users, usersList, chatsList) {
     usersList.innerHTML = '';
 
@@ -18,7 +16,7 @@ export function updateUsersList(users, usersList, chatsList) {
             try {
                 const userProfile = await getUserProfile(user.id);
 
-                displayUserProfile(userProfile); // Передаем callback как аргумент
+                displayUserProfile(userProfile);
             } catch (error) {
                 console.error('Ошибка при получении профиля пользователя:', error);
             }

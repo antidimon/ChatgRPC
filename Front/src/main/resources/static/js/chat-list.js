@@ -17,4 +17,6 @@ export function updateChatsList(chats) {
         });
         chatsList.appendChild(chatItem);
     });
+
+    chatsList.style.display = 'block';
 }

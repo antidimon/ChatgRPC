@@ -142,15 +142,11 @@ async function createChatMenu(chat, chatMenuElement) {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Удалить чат';
         deleteButton.addEventListener('click', async () => {
-            if (confirm('Вы уверены, что хотите удалить этот чат?')) {
-                try {
-                    await deleteChat(chat.chatId, chat.chatType === 'PRIVATE');
-                    alert('Чат успешно удален.');
-                    window.location.reload();
-                } catch (deleteError) {
-                    console.error('Ошибка при удалении чата:', deleteError);
-                    alert('Ошибка при удалении чата.');
-                }
+            try {
+                await deleteChat(chat.chatId, chat.chatType === 'PRIVATE');
+                window.location.reload();
+            } catch (deleteError) {
+                console.error('Ошибка при удалении чата:', deleteError);
             }
         });
 

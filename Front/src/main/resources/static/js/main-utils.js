@@ -15,12 +15,6 @@ export function createMessageElement(message) {
     return messageElement;
 }
 
-export function positionElement(element, target) {
-    const rect = target.getBoundingClientRect();
-    element.style.left = `${rect.right + window.scrollX}px`;
-    element.style.top = `${rect.top + window.scrollY}px`;
-}
-
 export function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleString('ru-RU', {

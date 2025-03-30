@@ -2,6 +2,8 @@ import { sendMessage } from './chat-message.js';
 import { createMessageElement } from './main-utils.js';
 import { getChatInfo, getChatMessages, deleteChat } from './chat-api.js';
 import { setCurrentChatId } from "./chat-state.js";
+import { addUserToChat, removeUserFromChat} from "./user-api.js";
+import {fetchUsers} from "./user-search.js";
 
 
 export async function updateChatWindow(chat) {
@@ -128,6 +130,24 @@ async function createChatMenu(chat, chatMenuElement) {
                 <p>Владелец: ${chatData.users.find(u => u.id === chatData.ownerId)?.username || 'Неизвестен'}</p>
                 <p>Участники: ${chatData.users.map(u => u.username).join(', ') || 'Нет'}</p>
             `;
+
+            const addMemberButton = document.createElement('button');
+            console.log(addMemberButton)
+            addMemberButton.textContent = 'Добавить участника';
+            addMemberButton.addEventListener('click', async () => {
+                console.log('Кнопка "Добавить участника" нажата');
+                await showAddMemberMenu(chat, chatMenuElement);
+            });
+
+            const removeMemberButton = document.createElement('button');
+            removeMemberButton.textContent = 'Удалить участника';
+            removeMemberButton.addEventListener('click', async () => {
+                await showRemoveMemberMenu(chat, chatMenuElement);
+            });
+
+            chatMenuElement.appendChild(addMemberButton);
+            chatMenuElement.appendChild(removeMemberButton);
+
         } else if (chat.chatType === 'PRIVATE') {
             chatInfo = `
                 <p>Тип: Личный</p>
@@ -137,7 +157,6 @@ async function createChatMenu(chat, chatMenuElement) {
         } else {
             chatInfo = `<p>Неизвестный тип чата</p>`;
         }
-
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Удалить чат';
@@ -150,11 +169,44 @@ async function createChatMenu(chat, chatMenuElement) {
             }
         });
 
-        chatMenuElement.innerHTML = chatInfo;
+        chatMenuElement.innerHTML += chatInfo;
         chatMenuElement.appendChild(deleteButton);
 
     } catch (error) {
         console.error('Ошибка при получении информации о чате:', error);
         chatMenuElement.innerHTML = `<p>Ошибка загрузки информации о чате</p>`;
     }
+}
+
+async function showAddMemberMenu(chat, chatMenuElement) {
+    chatMenuElement.innerHTML = `
+        <input type="text" id="searchUserInput" placeholder="Введите имя пользователя">
+        <div id="userList"></div>
+    `;
+    console.log('hi');
+    const searchInput = chatMenuElement.querySelector('#searchUserInput');
+    const userList = chatMenuElement.querySelector('#userList');
+
+    searchInput.addEventListener('input', async (e) => {
+        const username = e.value.trim();
+        if (username) {
+            const users = await fetchUsers(username);
+            userList.innerHTML = users.map(user => `
+                <div>
+                    <p>${user.username}</p>
+                    <button onclick="addUserToChat(${chat.chatId}, ${user.id})">Добавить</button>
+                </div>
+            `).join('');
+        }
+    });
+}
+
+async function showRemoveMemberMenu(chat, chatMenuElement) {
+    const chatData = await getChatInfo(chat.chatId, chat.chatType === 'PRIVATE');
+    chatMenuElement.innerHTML = chatData.users.map(user => `
+        <div>
+            <p>${user.username}</p>
+            <button onclick="removeUserFromChat(${chat.chatId}, ${user.id})">Кик</button>
+        </div>
+    `).join('');
 }

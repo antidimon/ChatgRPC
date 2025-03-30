@@ -1,5 +1,3 @@
-// user-context.js
-
 let currentProfileUsername = null;
 
 export function getCurrentProfileUsername() {

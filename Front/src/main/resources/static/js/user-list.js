@@ -1,7 +1,5 @@
-// user-list.js
 import { getUserProfile } from './user-api.js';
 import { displayUserProfile } from './user-ui.js';
-
 
 export function updateUsersList(users, usersList, chatsList) {
     usersList.innerHTML = '';

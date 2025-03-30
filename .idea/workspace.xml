@@ -6,16 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="11320949-62ca-49d0-8985-ea9cb99ce4e8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/controllers/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/chats/ChatOutputDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/models/dto/chats/ChatOutputDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/java/antidimon/web/front/services/inner/FrontChatsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-message.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-message.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-state.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-state.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/chat-ui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/main-utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/main-utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/user-api.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/user-api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/user-context.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/user-context.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/src/main/resources/static/js/user-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/static/js/user-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/Front/src/main/resources/templates/main.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,6 +250,7 @@
       <workItem from="1742896863066" duration="1803000" />
       <workItem from="1743056164246" duration="8768000" />
       <workItem from="1743074737520" duration="2514000" />
+      <workItem from="1743358649724" duration="2944000" />
     </task>
     <servers />
   </component>

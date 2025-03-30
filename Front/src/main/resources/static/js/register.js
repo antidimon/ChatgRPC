@@ -1,4 +1,3 @@
-// Получаем все поля формы
 const usernameInput = document.getElementById('username');
 const nameInput = document.getElementById('name');
 const ageInput = document.getElementById('age');
@@ -6,7 +5,6 @@ const emailInput = document.getElementById('email');
 const phoneNumberInput = document.getElementById('phoneNumber');
 const passwordInput = document.getElementById('password');
 
-// Функция для проверки логина
 function checkUsername() {
     const username = usernameInput.value.trim();
     if (username.length < 3 || username.length > 20) {
@@ -18,7 +16,6 @@ function checkUsername() {
     }
 }
 
-// Функция для проверки имени
 function checkName() {
     const name = nameInput.value.trim();
     if (name.length < 2 || name.length > 50) {
@@ -30,7 +27,6 @@ function checkName() {
     }
 }
 
-// Функция для проверки возраста
 function checkAge() {
     const age = parseInt(ageInput.value);
     if (isNaN(age) || age < 0 || age > 100) {
@@ -42,7 +38,6 @@ function checkAge() {
     }
 }
 
-// Функция для проверки электронной почты
 function checkEmail() {
     const email = emailInput.value.trim();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -55,7 +50,6 @@ function checkEmail() {
     }
 }
 
-// Функция для проверки номера телефона
 function checkPhoneNumber() {
     const phoneNumber = phoneNumberInput.value.trim();
     const phoneRegex = /^8\d{10}$/;
@@ -68,7 +62,6 @@ function checkPhoneNumber() {
     }
 }
 
-// Функция для проверки пароля
 function checkPassword() {
     const password = passwordInput.value.trim();
     if (password.length < 5) {
